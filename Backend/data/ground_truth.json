@@ -1,0 +1,443 @@
+{
+  "note": "Verification file only. Do NOT feed this into the ingestion/graph pipeline \u2014 use it afterwards to check whether your system recovered these signals.",
+  "planted_network_person_ids": [
+    "N01",
+    "N02",
+    "N03",
+    "N04",
+    "N05",
+    "N06",
+    "N07",
+    "N08",
+    "N09",
+    "N10",
+    "N11",
+    "N12",
+    "N13",
+    "N14",
+    "N15",
+    "N16",
+    "N17",
+    "N18",
+    "N19",
+    "N20",
+    "N21",
+    "N22",
+    "N23",
+    "N24"
+  ],
+  "red_herring_person_ids": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "R09",
+    "R10",
+    "R11",
+    "R12",
+    "R13",
+    "R14",
+    "R15",
+    "R16",
+    "R17",
+    "R18",
+    "R19",
+    "R20",
+    "R21",
+    "R22",
+    "R23",
+    "R24",
+    "R25",
+    "R26",
+    "R27",
+    "R28",
+    "R29",
+    "R30",
+    "R31",
+    "R32",
+    "R33",
+    "R34",
+    "R35",
+    "R36"
+  ],
+  "key_influencers": [
+    {
+      "person_id": "N01",
+      "name": "Aryan Maharaj",
+      "why_hidden_per_channel": "In CDRs alone this person only touches ['N04', 'N05', 'N06', 'N07', 'N08'] (degree 5). In transactions alone only ['N09', 'N10', 'N11', 'N12', 'N13'] (degree 5). In FIR mentions alone only ['N14', 'N15', 'N16', 'N17', 'N18'] (degree 5). None of these single-channel views make them stand out.",
+      "why_central_combined": "Once CDR + transaction + FIR-mention edges are merged into one graph, this person's combined neighbourhood is all 15 people above, giving them a combined degree/betweenness far above the single-channel view \u2014 this is the signal your fusion + centrality step should surface.",
+      "cdr_contacts": [
+        "N04",
+        "N05",
+        "N06",
+        "N07",
+        "N08"
+      ],
+      "txn_contacts": [
+        "N09",
+        "N10",
+        "N11",
+        "N12",
+        "N13"
+      ],
+      "fir_contacts": [
+        "N14",
+        "N15",
+        "N16",
+        "N17",
+        "N18"
+      ]
+    },
+    {
+      "person_id": "N02",
+      "name": "Oni Kannan",
+      "why_hidden_per_channel": "In CDRs alone this person only touches ['N19', 'N20', 'N21', 'N22', 'N23'] (degree 5). In transactions alone only ['N04', 'N05', 'N06', 'N07', 'N08'] (degree 5). In FIR mentions alone only ['N09', 'N10', 'N11', 'N12', 'N13'] (degree 5). None of these single-channel views make them stand out.",
+      "why_central_combined": "Once CDR + transaction + FIR-mention edges are merged into one graph, this person's combined neighbourhood is all 15 people above, giving them a combined degree/betweenness far above the single-channel view \u2014 this is the signal your fusion + centrality step should surface.",
+      "cdr_contacts": [
+        "N19",
+        "N20",
+        "N21",
+        "N22",
+        "N23"
+      ],
+      "txn_contacts": [
+        "N04",
+        "N05",
+        "N06",
+        "N07",
+        "N08"
+      ],
+      "fir_contacts": [
+        "N09",
+        "N10",
+        "N11",
+        "N12",
+        "N13"
+      ]
+    },
+    {
+      "person_id": "N03",
+      "name": "Caleb Sharaf",
+      "why_hidden_per_channel": "In CDRs alone this person only touches ['N14', 'N15', 'N16', 'N17', 'N18'] (degree 5). In transactions alone only ['N19', 'N20', 'N21', 'N22', 'N23'] (degree 5). In FIR mentions alone only ['N04', 'N05', 'N06', 'N07', 'N08'] (degree 5). None of these single-channel views make them stand out.",
+      "why_central_combined": "Once CDR + transaction + FIR-mention edges are merged into one graph, this person's combined neighbourhood is all 15 people above, giving them a combined degree/betweenness far above the single-channel view \u2014 this is the signal your fusion + centrality step should surface.",
+      "cdr_contacts": [
+        "N14",
+        "N15",
+        "N16",
+        "N17",
+        "N18"
+      ],
+      "txn_contacts": [
+        "N19",
+        "N20",
+        "N21",
+        "N22",
+        "N23"
+      ],
+      "fir_contacts": [
+        "N04",
+        "N05",
+        "N06",
+        "N07",
+        "N08"
+      ]
+    }
+  ],
+  "hidden_links": [
+    {
+      "pair": [
+        "N24",
+        "N19"
+      ],
+      "mechanism": "shared_financial_intermediary",
+      "detail": "N24 pays intermediary N08, who separately pays N19, within a short window. N24 and N19 never appear together in any CDR or transaction record.",
+      "intermediary": "N08"
+    },
+    {
+      "pair": [
+        "N22",
+        "N16"
+      ],
+      "mechanism": "shared_cdr_tower_ping",
+      "detail": "N22 and N16 each place unrelated calls from the same cell tower (Whitefield Junction Tower, L01) within minutes of each other on the same day, suggesting physical co-location, but never call one another directly.",
+      "tower": "L01"
+    },
+    {
+      "pair": [
+        "N05",
+        "N15"
+      ],
+      "mechanism": "fir_co_mention_only",
+      "detail": "N05 and N15 are named together in the same FIR narrative (seen together at a location) but have zero direct CDR or transaction contact anywhere in the dataset."
+    }
+  ],
+  "multi_hop_chains": [
+    {
+      "chain": [
+        "N11",
+        "N17",
+        "N21"
+      ],
+      "note": "Sequential transfers across a 9-day window."
+    },
+    {
+      "chain": [
+        "N24",
+        "N08",
+        "N19"
+      ],
+      "note": "Same chain that constitutes the hidden financial-intermediary link above."
+    }
+  ],
+  "fir_mention_ground_truth": [
+    {
+      "fir_id": "FIR-001",
+      "mentioned_person_ids": [
+        "N05",
+        "N15"
+      ]
+    },
+    {
+      "fir_id": "FIR-002",
+      "mentioned_person_ids": [
+        "N01",
+        "N14"
+      ]
+    },
+    {
+      "fir_id": "FIR-003",
+      "mentioned_person_ids": [
+        "N01",
+        "N15"
+      ]
+    },
+    {
+      "fir_id": "FIR-004",
+      "mentioned_person_ids": [
+        "N01",
+        "N16"
+      ]
+    },
+    {
+      "fir_id": "FIR-005",
+      "mentioned_person_ids": [
+        "N01",
+        "N17"
+      ]
+    },
+    {
+      "fir_id": "FIR-006",
+      "mentioned_person_ids": [
+        "N01",
+        "N18"
+      ]
+    },
+    {
+      "fir_id": "FIR-007",
+      "mentioned_person_ids": [
+        "N02",
+        "N09"
+      ]
+    },
+    {
+      "fir_id": "FIR-008",
+      "mentioned_person_ids": [
+        "N02",
+        "N10"
+      ]
+    },
+    {
+      "fir_id": "FIR-009",
+      "mentioned_person_ids": [
+        "N02",
+        "N11"
+      ]
+    },
+    {
+      "fir_id": "FIR-010",
+      "mentioned_person_ids": [
+        "N02",
+        "N12"
+      ]
+    },
+    {
+      "fir_id": "FIR-011",
+      "mentioned_person_ids": [
+        "N02",
+        "N13"
+      ]
+    },
+    {
+      "fir_id": "FIR-012",
+      "mentioned_person_ids": [
+        "N03",
+        "N04"
+      ]
+    },
+    {
+      "fir_id": "FIR-013",
+      "mentioned_person_ids": [
+        "N03",
+        "N05"
+      ]
+    },
+    {
+      "fir_id": "FIR-014",
+      "mentioned_person_ids": [
+        "N03",
+        "N06"
+      ]
+    },
+    {
+      "fir_id": "FIR-015",
+      "mentioned_person_ids": [
+        "N03",
+        "N07"
+      ]
+    },
+    {
+      "fir_id": "FIR-016",
+      "mentioned_person_ids": [
+        "N03",
+        "N08"
+      ]
+    },
+    {
+      "fir_id": "FIR-017",
+      "mentioned_person_ids": [
+        "R20",
+        "R33"
+      ]
+    },
+    {
+      "fir_id": "FIR-018",
+      "mentioned_person_ids": [
+        "R13",
+        "N16"
+      ]
+    },
+    {
+      "fir_id": "FIR-019",
+      "mentioned_person_ids": [
+        "R19",
+        "R14"
+      ]
+    },
+    {
+      "fir_id": "FIR-020",
+      "mentioned_person_ids": [
+        "R22",
+        "N21"
+      ]
+    },
+    {
+      "fir_id": "FIR-021",
+      "mentioned_person_ids": [
+        "R18",
+        "N20"
+      ]
+    },
+    {
+      "fir_id": "FIR-022",
+      "mentioned_person_ids": [
+        "N05",
+        "N01"
+      ]
+    },
+    {
+      "fir_id": "FIR-023",
+      "mentioned_person_ids": [
+        "N05",
+        "R12"
+      ]
+    },
+    {
+      "fir_id": "FIR-024",
+      "mentioned_person_ids": [
+        "N23",
+        "R34"
+      ]
+    },
+    {
+      "fir_id": "FIR-025",
+      "mentioned_person_ids": [
+        "R05",
+        "R31"
+      ]
+    },
+    {
+      "fir_id": "FIR-026",
+      "mentioned_person_ids": [
+        "R19",
+        "R30"
+      ]
+    },
+    {
+      "fir_id": "FIR-027",
+      "mentioned_person_ids": [
+        "R33",
+        "N09"
+      ]
+    },
+    {
+      "fir_id": "FIR-028",
+      "mentioned_person_ids": [
+        "R12",
+        "N10"
+      ]
+    },
+    {
+      "fir_id": "FIR-029",
+      "mentioned_person_ids": [
+        "N22",
+        "N14"
+      ]
+    },
+    {
+      "fir_id": "FIR-030",
+      "mentioned_person_ids": [
+        "R35",
+        "R31"
+      ]
+    },
+    {
+      "fir_id": "FIR-031",
+      "mentioned_person_ids": [
+        "N18",
+        "N03"
+      ]
+    },
+    {
+      "fir_id": "FIR-032",
+      "mentioned_person_ids": [
+        "N17",
+        "N11"
+      ]
+    },
+    {
+      "fir_id": "FIR-033",
+      "mentioned_person_ids": [
+        "N01",
+        "N09"
+      ]
+    },
+    {
+      "fir_id": "FIR-034",
+      "mentioned_person_ids": [
+        "N24",
+        "R15"
+      ]
+    },
+    {
+      "fir_id": "FIR-035",
+      "mentioned_person_ids": [
+        "N24",
+        "R35"
+      ]
+    }
+  ]
+}
