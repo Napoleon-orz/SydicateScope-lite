@@ -16,7 +16,7 @@ random.seed(SEED)
 fake = Faker("en_IN")
 Faker.seed(SEED)
 
-OUT = "/home/claude/nexusguard_data"
+OUT = "/home/Desktop/NexusGuard-lite/Backend/data"
 
 START_DATE = datetime(2026, 6, 1)
 END_DATE = datetime(2026, 8, 31)

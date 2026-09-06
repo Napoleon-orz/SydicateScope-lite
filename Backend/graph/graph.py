@@ -63,3 +63,18 @@ def build_investigation_graph(people: list, canonical_nodes: dict, cdrs: list, t
 
     print(f"Graph Built Successfully! Total Nodes: {g.number_of_nodes()}, Total Edges: {g.number_of_edges()}")
     return g
+
+def add_fir_co_mention_edges(graph, firs_data):
+    """
+    Adds weighted edges between entities co-mentioned in FIR narratives.
+    """
+    for fir in firs_data:
+        mentioned = fir.get("mentioned_person_ids", [])
+        for i in range(len(mentioned)):
+            for j in range(i + 1, len(mentioned)):
+                u, v = mentioned[i], mentioned[j]
+                if graph.has_edge(u, v):
+                    graph[u][v]['fir_weight'] = graph[u][v].get('fir_weight', 0.0) + 2.0
+                else:
+                    graph.add_edge(u, v, fir_weight=2.0, cdr_weight=0.0, txn_weight=0.0)
+    return graph
