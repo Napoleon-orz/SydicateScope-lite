@@ -24,24 +24,24 @@ def resolve_entities(extracted_mentions: list[dict], threshold: float = 0.75) ->
             canonical_nodes[canonical_id]["source_mentions"].append(mention)
             continue
 
-    matched_id = None
-    for cid, node in canonical_nodes.items():
-        if node["entity_type"] == etype:
-            score = compute_similarity(surface, node["canonical_name"])
-            if score >= threshold:
-                matched_id = cid
-                break
+        matched_id = None
+        for cid, node in canonical_nodes.items():
+            if node["entity_type"] == etype:
+                score = compute_similarity(surface, node["canonical_name"])
+                if score >= threshold:
+                    matched_id = cid
+                    break
 
-    if matched_id:
-        canonical_nodes[matched_id]["source_mentions"].append(mention)
-    else:
-        new_id = f"{etype}_{len(canonical_nodes) + 1}"
-        canonical_nodes[new_id] = {
-            "canonical_id": new_id,
-            "entity_type": etype,
-            "canonical_name": surface,
-            "source_mentions": [mention]
-        }
+        if matched_id:
+            canonical_nodes[matched_id]["source_mentions"].append(mention)
+        else:
+            new_id = f"{etype}_{len(canonical_nodes) + 1}"
+            canonical_nodes[new_id] = {
+                "canonical_id": new_id,
+                "entity_type": etype,
+                "canonical_name": surface,
+                "source_mentions": [mention]
+            }
 
     print(f"Entity Resolution complete. Merged raw mentions into {len(canonical_nodes)} unique master profiles.")
     return canonical_nodes

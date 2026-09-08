@@ -1,7 +1,10 @@
 from ingest import load_json, load_csv
 from ner.ner import extract_all_entities
 from resolution.resolver import resolve_entities
-from graph.graph import build_investigation_graph
+from graph.graph import (
+    build_investigation_graph,
+    add_fir_co_mention_edges
+)
 from prediction.link_prediction import (
     get_neighbors,
     shared_neighbors,
@@ -15,7 +18,8 @@ from prediction.link_prediction import (
     evaluate_model,
     rank_candidate_links
 )
-
+from analytics.influence import rank_influential_nodes
+from rag.graph_rag import explain_link, explain_influence
 
 def main():
     print("--- SyndicateScope: Full End-to-End Pipeline ---")
@@ -28,9 +32,11 @@ def main():
     print(f"Loaded {len(people)} People, {len(firs)} FIRs, {len(cdrs)} CDRs, and {len(transactions)} Transactions.")
 
     # 2. NER Extraction
+    known_person_names = [p.get("name", "") for p in people if p.get("name")]
+
     all_extracted_clues = []
     for fir in firs:
-        clues = extract_all_entities(fir)
+        clues = extract_all_entities(fir, known_person_names)
         all_extracted_clues.extend(clues)
 
     # 3. Entity Resolution (Deduplication)
@@ -39,6 +45,12 @@ def main():
     # 4. Build the NetworkX Graph
     print("\nBuilding NetworkX Graph Backend...")
     investigation_graph = build_investigation_graph(people, canonical_database, cdrs, transactions)
+
+    investigation_graph = add_fir_co_mention_edges(
+        investigation_graph,
+        canonical_database,
+        people
+    )
 
     # 5. Print quick sanity check
     print("\nSample Graph Node Check:")
@@ -93,12 +105,12 @@ def main():
         )
     )
 
-    investigation_graph = build_investigation_graph(
-        people,
-        canonical_database,
-        cdrs,
-        transactions
+    person_person_edges = sum(
+        1 for a, b in investigation_graph.edges()
+        if investigation_graph.nodes[a].get("entity_type") == "PERSON"
+        and investigation_graph.nodes[b].get("entity_type") == "PERSON"
     )
+    print(f"PERSON-PERSON edges: {person_person_edges}")
 
     print("\n--- LINK PREDICTION MODEL ---")
 
@@ -160,10 +172,12 @@ def main():
     for name, coefficient in zip(feature_names, model.coef_[0]):
         print(f"{name}: {coefficient:.4f}")
 
+
     print("Intercept:", model.intercept_[0])
 
     print("N01 vs N19:", extract_features(investigation_graph, "N01", "N19"))
     print("N05 vs N15:", extract_features(investigation_graph, "N05", "N15"))
+
 
     print("\n--- CHECKING KNOWN HIDDEN LINKS DIRECTLY ---")
     known_hidden_links = [("N24", "N19"), ("N22", "N16"), ("N05", "N15")]
@@ -177,6 +191,31 @@ def main():
             node_b
         )
         print(f"{node_a} - {node_b}: {probability:.4f}")
+    top_influential = rank_influential_nodes(
+        investigation_graph,
+        top_n=10
+    )
+
+    print("\n--- TOP INFLUENTIAL NODES ---")
+
+    for rank, (node, score) in enumerate(top_influential, start=1):
+        name = investigation_graph.nodes[node].get(
+            "canonical_name",
+            node
+        )
+
+        print(
+            f"{rank}. {node} - {name}: {score:.4f}"
+        )
+
+    print("\n--- GRAPH-RAG EXPLANATIONS ---")
+
+    for node_a, node_b in known_hidden_links:
+        print(explain_link(investigation_graph, node_a, node_b, model, scaler))
+
+    for node, score in top_influential[:3]:
+        print(explain_influence(investigation_graph, node))
+
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,5 @@
 import re
+import difflib
 import spacy
 
 nlp = spacy.load('en_core_web_sm')
@@ -12,6 +13,70 @@ SPACY_TYPE_MAP ={
     "LOC": "LOCATION",
     "ORG": "ORGANIZATION",
 }
+
+def extract_known_person_mentions(text, doc_id, known_person_names):
+
+
+    clues = []
+
+    if not known_person_names:
+        return clues
+
+    for name in known_person_names:
+
+        name = name.strip()
+
+        if not name:
+            continue
+
+        pattern = re.compile(
+            r'\b' + re.escape(name) + r'\b',
+            re.IGNORECASE
+        )
+
+        for match in pattern.finditer(text):
+            clues.append({
+                "doc_id": doc_id,
+                "entity_type": "PERSON",
+                "surface_text": match.group(),
+                "start_char": match.start(),
+                "end_char": match.end(),
+                "confidence": 0.99
+            })
+
+    return clues
+
+
+def correct_person_misclassification(clues, known_person_names, threshold=0.85):
+
+
+    if not known_person_names:
+        return clues
+
+    for clue in clues:
+
+        if clue["entity_type"] == "PERSON":
+            continue
+
+        if clue["entity_type"] not in ("ORGANIZATION", "LOCATION"):
+            continue
+
+        surface = clue["surface_text"].strip().lower()
+
+        for known_name in known_person_names:
+
+            score = difflib.SequenceMatcher(
+                None,
+                surface,
+                known_name.strip().lower()
+            ).ratio()
+
+            if score >= threshold:
+                clue["entity_type"] = "PERSON"
+                break
+
+    return clues
+
 
 def extract_regex_entities(text, doc_id):
     clues =[]
@@ -56,8 +121,7 @@ def extract_spacy_entities(text, doc_id):
     return clues
 
 
-def extract_all_entities(fir_record):
-    """Combines Regex and spaCy clues into one clean list for a single FIR report."""
+def extract_all_entities(fir_record, known_person_names=None):
     doc_id = fir_record.get("fir_id", "UNKNOWN_FIR")
     text = fir_record.get("text",
            fir_record.get("description",
@@ -70,12 +134,17 @@ def extract_all_entities(fir_record):
             if isinstance(value, str) and len(value) > len(longest_string):
                 longest_string = value
         text = longest_string
-    # Run both engines
+    # Run both engines, plus a direct scan for known person names
     regex_clues = extract_regex_entities(text, doc_id)
     spacy_clues = extract_spacy_entities(text, doc_id)
+    gazetteer_clues = extract_known_person_mentions(
+        text,
+        doc_id,
+        known_person_names
+    )
 
-    # Combine and deduplicate overlapping character spans
-    all_clues = regex_clues + spacy_clues
+
+    all_clues = regex_clues + spacy_clues + gazetteer_clues
     unique_clues = []
     seen_spans = set()
 
@@ -85,11 +154,9 @@ def extract_all_entities(fir_record):
             seen_spans.add(span_key)
             unique_clues.append(clue)
 
+    unique_clues = correct_person_misclassification(
+        unique_clues,
+        known_person_names
+    )
+
     return unique_clues
-
-
-
-
-
-
-
