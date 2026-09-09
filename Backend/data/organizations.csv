@@ -11,3 +11,14 @@ O4,Om Sai Finance Associates,informal_finance,N24,associate
 O5,Nova Digital Solutions LLP,shell_it_services,N17,owner
 O5,Nova Digital Solutions LLP,shell_it_services,N04,associate
 O5,Nova Digital Solutions LLP,shell_it_services,N05,associate
+G1,Trinacria Import-Export Srl,trading_shell,M01,owner
+G1,Trinacria Import-Export Srl,trading_shell,M04,associate
+G2,Edilizia Gabbiano Costruzioni,construction_shell,M02,owner
+G2,Edilizia Gabbiano Costruzioni,construction_shell,M06,associate
+G2,Edilizia Gabbiano Costruzioni,construction_shell,F05,associate
+G3,Agrumi del Sud Cooperativa,agri_shell,M03,owner
+G3,Agrumi del Sud Cooperativa,agri_shell,F11,associate
+G4,Finanziaria Belmonte,informal_finance,M07,owner
+G4,Finanziaria Belmonte,informal_finance,M08,associate
+G5,Nautica Molo Vecchio Srl,logistics_shell,M05,owner
+G5,Nautica Molo Vecchio Srl,logistics_shell,M02,associate
