@@ -1,4 +1,4 @@
-# SyndicateScope (NexusGuard-lite)
+# SyndicateScope
 
 **AI-assisted criminal network inference — hackathon prototype**
 *NCRB Women Safety Division · SIH26189*
