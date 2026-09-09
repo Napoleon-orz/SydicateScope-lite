@@ -1,0 +1,16 @@
+vehicle_id,plate_number,make_model,owner_person_id
+V01,MH59LG9179,Tata Ace,N01
+V02,TS30EJ3287,Toyota Innova,N02
+V03,TS36JP7543,Mahindra Bolero,N03
+V04,MH09RC1771,Hero Splendor,N06
+V05,MH41FP2040,Tata Ace,N09
+V06,TN39QJ1188,Hero Splendor,N11
+V07,TS57JL2827,Honda Activa,N14
+V08,TN11QA5315,Hyundai i20,N17
+V09,KL12DK9317,Ford EcoSport,N19
+V10,MH10MF9837,Hyundai i20,N22
+V11,KA39LR1319,Hero Splendor,R03
+V12,DL57KH1949,Toyota Innova,R08
+V13,AP06CR2133,Hyundai i20,R15
+V14,KL09ER3705,Honda Activa,R21
+V15,AP56PG9835,Toyota Innova,R30
