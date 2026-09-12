@@ -27,8 +27,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
         body {
-            background-color: #05070f;
-            color: #f3f4f6;
+            background-color: #faf8f2;
+            color: #1e293b;
             font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
             overflow-x: hidden;
         }
@@ -36,9 +36,9 @@
         #network-canvas {
             width: 100%;
             height: calc(100vh - 130px);
-            background-color: #0b0f19;
+            background-color: #f3efe6;
             border-radius: 0.75rem;
-            border: 1px solid #1e293b;
+            border: 1px solid #e2e8f0;
             outline: none;
         }
 
@@ -47,41 +47,41 @@
             height: calc(100vh - 130px);
             position: relative;
             border-radius: 0.75rem;
-            border: 1px solid #1e293b;
+            border: 1px solid #e2e8f0;
             overflow: hidden;
         }
 
         #map-canvas {
             width: 100%;
             height: 100%;
-            background-color: #0b0f19;
+            background-color: #f3efe6;
         }
 
-        .leaflet-container { background: #0b0f19 !important; }
+        .leaflet-container { background: #f3efe6 !important; }
         .leaflet-popup-content-wrapper {
-            background: #0f172a !important;
-            color: #f8fafc !important;
-            border: 1px solid #334155;
+            background: #ffffff !important;
+            color: #0f172a !important;
+            border: 1px solid #cbd5e1;
             border-radius: 0.75rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
             padding: 4px;
         }
-        .leaflet-popup-tip { background: #0f172a !important; }
+        .leaflet-popup-tip { background: #ffffff !important; }
         .leaflet-control-zoom a {
-            background: #1e293b !important;
-            color: #f8fafc !important;
-            border-color: #334155 !important;
+            background: #ffffff !important;
+            color: #0f172a !important;
+            border-color: #cbd5e1 !important;
         }
 
         .high-contrast-tooltip {
-            background: #090d16 !important;
+            background: #0f172a !important;
             color: #ffffff !important;
-            border: 1px solid #475569 !important;
+            border: 1px solid #334155 !important;
             font-size: 11px !important;
             font-weight: 700 !important;
             border-radius: 6px;
             padding: 5px 10px !important;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
 
         .fade-in { animation: fadeIn 0.25s ease-in-out; }
@@ -89,132 +89,133 @@
 
         .tab-btn { transition: all .15s ease; }
         .tab-btn.active {
-            background-color: #1e293b;
-            color: #ffffff;
-            border-color: #475569;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            background-color: #ffffff;
+            color: #0f172a;
+            border-color: #cbd5e1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+            font-weight: 800;
         }
 
         .scrollbar-thin::-webkit-scrollbar { width: 5px; }
-        .scrollbar-thin::-webkit-scrollbar-track { background: #0b0f19; }
-        .scrollbar-thin::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-        .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #475569; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: #f3efe6; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         .pulse-dot { animation: pulse 1.6s infinite; }
         @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(0.92); } }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-[#05070f] text-gray-100 antialiased selection:bg-red-900 selection:text-white">
+<body class="min-h-screen flex flex-col bg-[#faf8f2] text-slate-800 antialiased selection:bg-red-100 selection:text-red-900">
 
     <!-- LOGIN / PERSONA SELECTION MODAL -->
-    <div id="login-modal" class="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8 max-w-lg w-full shadow-2xl space-y-6">
+    <div id="login-modal" class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white border border-stone-200 rounded-2xl p-8 max-w-lg w-full shadow-2xl space-y-6">
             <div class="text-center space-y-2">
-                <div class="inline-block bg-red-600 text-white font-black px-3 py-1 rounded text-[10px] tracking-widest uppercase shadow-lg shadow-red-900/40">
+                <div class="inline-block bg-red-700 text-white font-black px-3 py-1 rounded text-[10px] tracking-widest uppercase shadow-md shadow-red-900/20">
                     Restricted Law Enforcement Network
                 </div>
-                <h2 class="text-2xl font-black tracking-tight text-white font-mono">SyndicateScope</h2>
-                <p class="text-xs text-gray-400">NCRB Intelligence Division &middot; SIH26189 Graph-RAG System</p>
+                <h2 class="text-2xl font-black tracking-tight text-slate-900 font-mono">SyndicateScope</h2>
+                <p class="text-xs text-slate-500">NCRB Intelligence Division &middot; SIH26189 Graph-RAG System</p>
             </div>
             <div class="grid grid-cols-1 gap-3">
-                <button onclick="selectPersona('u_admin', 'Commander Apex', 'Admin')" class="bg-gray-800/80 hover:bg-gray-750 border border-gray-700 hover:border-red-500/50 p-4 rounded-xl text-left flex justify-between items-center group transition shadow-md">
+                <button onclick="selectPersona('u_admin', 'Commander Apex', 'Admin')" class="bg-stone-50 hover:bg-red-50/60 border border-stone-200 hover:border-red-300 p-4 rounded-xl text-left flex justify-between items-center group transition shadow-sm">
                     <div>
-                        <div class="text-sm font-bold text-white group-hover:text-red-400 flex items-center">
+                        <div class="text-sm font-bold text-slate-900 group-hover:text-red-700 flex items-center">
                             DSP (Deputy Superintendent)
                         </div>
-                        <div class="text-xs text-gray-400 mt-0.5">Full administrative override, AI predictions, audit logs, judge mode</div>
+                        <div class="text-xs text-slate-500 mt-0.5">Full administrative override, AI predictions, audit logs, judge mode</div>
                     </div>
-                    <span class="bg-red-950/80 text-red-400 border border-red-800/80 text-[10px] font-bold px-2.5 py-1 rounded">ADMIN</span>
+                    <span class="bg-red-100 text-red-800 border border-red-200 text-[10px] font-bold px-2.5 py-1 rounded">ADMIN</span>
                 </button>
-                <button onclick="selectPersona('u_analyst', 'Agent Vance', 'Analyst')" class="bg-gray-800/80 hover:bg-gray-750 border border-gray-700 hover:border-indigo-500/50 p-4 rounded-xl text-left flex justify-between items-center group transition shadow-md">
+                <button onclick="selectPersona('u_analyst', 'Agent Vance', 'Analyst')" class="bg-stone-50 hover:bg-indigo-50/60 border border-stone-200 hover:border-indigo-300 p-4 rounded-xl text-left flex justify-between items-center group transition shadow-sm">
                     <div>
-                        <div class="text-sm font-bold text-white group-hover:text-indigo-400 flex items-center">
+                        <div class="text-sm font-bold text-slate-900 group-hover:text-indigo-700 flex items-center">
                             Investigator / Analyst
                         </div>
-                        <div class="text-xs text-gray-400 mt-0.5">Graph analysis, hidden link prediction, influence scoring, FIR exploration</div>
+                        <div class="text-xs text-slate-500 mt-0.5">Graph analysis, hidden link prediction, influence scoring, FIR exploration</div>
                     </div>
-                    <span class="bg-indigo-950/80 text-indigo-400 border border-indigo-800/80 text-[10px] font-bold px-2.5 py-1 rounded">ANALYST</span>
+                    <span class="bg-indigo-100 text-indigo-800 border border-indigo-200 text-[10px] font-bold px-2.5 py-1 rounded">ANALYST</span>
                 </button>
-                <button onclick="selectPersona('u_viewer', 'Observer Sam', 'Viewer')" class="bg-gray-800/80 hover:bg-gray-750 border border-gray-700 hover:border-gray-500 p-4 rounded-xl text-left flex justify-between items-center group transition shadow-md">
+                <button onclick="selectPersona('u_viewer', 'Observer Sam', 'Viewer')" class="bg-stone-50 hover:bg-slate-100 border border-stone-200 hover:border-slate-300 p-4 rounded-xl text-left flex justify-between items-center group transition shadow-sm">
                     <div>
-                        <div class="text-sm font-bold text-white group-hover:text-gray-200 flex items-center">
+                        <div class="text-sm font-bold text-slate-900 group-hover:text-slate-700 flex items-center">
                             Beat Officer / Viewer
                         </div>
-                        <div class="text-xs text-gray-400 mt-0.5">Read-only intelligence graph & case report viewing</div>
+                        <div class="text-xs text-slate-500 mt-0.5">Read-only intelligence graph & case report viewing</div>
                     </div>
-                    <span class="bg-gray-800 text-gray-400 text-[10px] font-bold px-2.5 py-1 rounded border border-gray-600">VIEWER</span>
+                    <span class="bg-slate-200 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded border border-slate-300">VIEWER</span>
                 </button>
             </div>
         </div>
     </div>
 
     <!-- PROFILE DOSSIER MODAL -->
-    <div id="profile-modal" class="hidden fixed inset-0 z-[9999] bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl max-w-2xl w-full shadow-2xl max-h-[88vh] flex flex-col overflow-hidden">
-            <div class="flex justify-between items-start p-5 border-b border-gray-800 bg-gray-950/60">
+    <div id="profile-modal" class="hidden fixed inset-0 z-[9999] bg-slate-900/50 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white border border-stone-200 rounded-2xl max-w-2xl w-full shadow-2xl max-h-[88vh] flex flex-col overflow-hidden">
+            <div class="flex justify-between items-start p-5 border-b border-stone-200 bg-stone-50/80">
                 <div>
-                    <div id="profile-modal-type" class="text-[10px] uppercase font-mono tracking-widest text-red-400 mb-1">Entity Profile</div>
-                    <div id="profile-modal-name" class="text-xl font-black text-white leading-tight">-</div>
-                    <div id="profile-modal-alias" class="text-xs text-gray-400 mt-0.5 italic"></div>
+                    <div id="profile-modal-type" class="text-[10px] uppercase font-mono tracking-widest text-red-700 font-bold mb-1">Entity Profile</div>
+                    <div id="profile-modal-name" class="text-xl font-black text-slate-900 leading-tight">-</div>
+                    <div id="profile-modal-alias" class="text-xs text-slate-500 mt-0.5 italic"></div>
                 </div>
-                <button onclick="closeProfileModal()" class="text-gray-400 hover:text-white text-2xl leading-none px-2 py-1 rounded hover:bg-gray-800 transition">&times;</button>
+                <button onclick="closeProfileModal()" class="text-slate-400 hover:text-slate-700 text-2xl leading-none px-2 py-1 rounded hover:bg-stone-200 transition">&times;</button>
             </div>
-            <div id="profile-modal-body" class="p-5 overflow-y-auto scrollbar-thin space-y-4 text-sm flex-1">
-                <p class="text-gray-500 italic text-xs">Loading profile data...</p>
+            <div id="profile-modal-body" class="p-5 overflow-y-auto scrollbar-thin space-y-4 text-sm flex-1 bg-white">
+                <p class="text-slate-500 italic text-xs">Loading profile data...</p>
             </div>
-            <div class="p-3 border-t border-gray-800 bg-gray-950/40 flex justify-between items-center text-xs text-gray-400">
+            <div class="p-3 border-t border-stone-200 bg-stone-50/80 flex justify-between items-center text-xs text-slate-500">
                 <span>Intelligence File &middot; Confidential</span>
-                <button onclick="closeProfileModal()" class="bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold px-3 py-1.5 rounded-lg text-xs transition">Close Profile</button>
+                <button onclick="closeProfileModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-3 py-1.5 rounded-lg text-xs transition">Close Profile</button>
             </div>
         </div>
     </div>
 
     <!-- FULL FIR REPORT DOSSIER MODAL -->
-    <div id="fir-modal" class="hidden fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-gray-900 border border-purple-900/60 rounded-2xl max-w-2xl w-full shadow-2xl max-h-[88vh] flex flex-col overflow-hidden">
-            <div class="flex justify-between items-start p-5 border-b border-gray-800 bg-gray-950/60">
+    <div id="fir-modal" class="hidden fixed inset-0 z-[9999] bg-slate-900/50 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white border border-purple-200 rounded-2xl max-w-2xl w-full shadow-2xl max-h-[88vh] flex flex-col overflow-hidden">
+            <div class="flex justify-between items-start p-5 border-b border-stone-200 bg-purple-50/50">
                 <div>
-                    <div id="fir-modal-subtitle" class="text-[10px] uppercase font-mono tracking-widest text-purple-400 mb-1">Official First Information Report</div>
-                    <div id="fir-modal-title" class="text-xl font-black text-white leading-tight">FIR-000</div>
-                    <div id="fir-modal-date" class="text-xs text-gray-400 mt-0.5 font-mono">Date: -</div>
+                    <div id="fir-modal-subtitle" class="text-[10px] uppercase font-mono tracking-widest text-purple-700 font-bold mb-1">Official First Information Report</div>
+                    <div id="fir-modal-title" class="text-xl font-black text-slate-900 leading-tight">FIR-000</div>
+                    <div id="fir-modal-date" class="text-xs text-slate-500 mt-0.5 font-mono">Date: -</div>
                 </div>
-                <button onclick="closeFIRModal()" class="text-gray-400 hover:text-white text-2xl leading-none px-2 py-1 rounded hover:bg-gray-800 transition">&times;</button>
+                <button onclick="closeFIRModal()" class="text-slate-400 hover:text-slate-700 text-2xl leading-none px-2 py-1 rounded hover:bg-stone-200 transition">&times;</button>
             </div>
-            <div id="fir-modal-body" class="p-5 overflow-y-auto scrollbar-thin space-y-4 text-sm flex-1">
-                <p class="text-gray-500 italic text-xs">Loading FIR narrative document...</p>
+            <div id="fir-modal-body" class="p-5 overflow-y-auto scrollbar-thin space-y-4 text-sm flex-1 bg-white">
+                <p class="text-slate-500 italic text-xs">Loading FIR narrative document...</p>
             </div>
-            <div class="p-3 border-t border-gray-800 bg-gray-950/40 flex justify-between items-center text-xs text-gray-400">
+            <div class="p-3 border-t border-stone-200 bg-stone-50/80 flex justify-between items-center text-xs text-slate-500">
                 <span>NCRB Crime Record &middot; Law Enforcement Sensitive</span>
-                <button onclick="closeFIRModal()" class="bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold px-3 py-1.5 rounded-lg text-xs transition">Close Document</button>
+                <button onclick="closeFIRModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-3 py-1.5 rounded-lg text-xs transition">Close Document</button>
             </div>
         </div>
     </div>
 
     <!-- AI LINK PREDICTION ENGINE MODAL -->
-    <div id="ai-run-modal" class="hidden fixed inset-0 z-[9999] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-gray-900 border border-red-900/60 rounded-2xl max-w-xl w-full shadow-2xl max-h-[88vh] flex flex-col overflow-hidden">
-            <div class="flex justify-between items-start p-5 border-b border-gray-800 bg-gray-950/60">
+    <div id="ai-run-modal" class="hidden fixed inset-0 z-[9999] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white border border-red-200 rounded-2xl max-w-xl w-full shadow-2xl max-h-[88vh] flex flex-col overflow-hidden">
+            <div class="flex justify-between items-start p-5 border-b border-stone-200 bg-red-50/40">
                 <div>
-                    <div class="text-[10px] uppercase font-mono tracking-widest text-red-400 mb-1 flex items-center">
-                        <span class="w-2 h-2 bg-red-500 rounded-full mr-1.5 pulse-dot"></span>Link Prediction Engine
+                    <div class="text-[10px] uppercase font-mono tracking-widest text-red-700 font-bold mb-1 flex items-center">
+                        <span class="w-2 h-2 bg-red-600 rounded-full mr-1.5 pulse-dot"></span>Link Prediction Engine
                     </div>
-                    <div class="text-xl font-bold text-white">Hidden-Tie Predictions</div>
+                    <div class="text-xl font-bold text-slate-900">Hidden-Tie Predictions</div>
                 </div>
-                <button onclick="closeAIRunModal()" class="text-gray-400 hover:text-white text-2xl leading-none px-2 py-1 rounded hover:bg-gray-800 transition">&times;</button>
+                <button onclick="closeAIRunModal()" class="text-slate-400 hover:text-slate-700 text-2xl leading-none px-2 py-1 rounded hover:bg-stone-200 transition">&times;</button>
             </div>
 
-            <div class="bg-gray-950 border-b border-gray-800 px-5 py-3 grid grid-cols-3 gap-2 text-xs">
+            <div class="bg-stone-50 border-b border-stone-200 px-5 py-3 grid grid-cols-3 gap-2 text-xs">
                 <div>
-                    <label class="block text-[9px] uppercase font-mono text-gray-500 font-bold mb-1">City</label>
-                    <select id="ai-filter-city" onchange="runAIModel()" class="w-full bg-gray-900 border border-gray-700 text-gray-200 rounded-lg px-2 py-1 focus:outline-none focus:border-red-500 font-mono">
+                    <label class="block text-[9px] uppercase font-mono text-slate-500 font-bold mb-1">City</label>
+                    <select id="ai-filter-city" onchange="runAIModel()" class="w-full bg-white border border-stone-300 text-slate-800 rounded-lg px-2 py-1 focus:outline-none focus:border-red-500 font-mono">
                         <option value="all">All Cities</option>
                         <option value="Bengaluru">Bengaluru</option>
                         <option value="Mumbai">Mumbai</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-[9px] uppercase font-mono text-gray-500 font-bold mb-1">Area / Sector</label>
-                    <select id="ai-filter-area" onchange="runAIModel()" class="w-full bg-gray-900 border border-gray-700 text-gray-200 rounded-lg px-2 py-1 focus:outline-none focus:border-red-500 font-mono">
+                    <label class="block text-[9px] uppercase font-mono text-slate-500 font-bold mb-1">Area / Sector</label>
+                    <select id="ai-filter-area" onchange="runAIModel()" class="w-full bg-white border border-stone-300 text-slate-800 rounded-lg px-2 py-1 focus:outline-none focus:border-red-500 font-mono">
                         <option value="all" selected>All Areas</option>
                         <optgroup label="Bengaluru">
                             <option value="Indiranagar">Indiranagar</option>
@@ -232,8 +233,8 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-[9px] uppercase font-mono text-gray-500 font-bold mb-1">Sort By</label>
-                    <select id="ai-filter-sort" onchange="runAIModel()" class="w-full bg-gray-900 border border-gray-700 text-gray-200 rounded-lg px-2 py-1 focus:outline-none focus:border-red-500 font-mono">
+                    <label class="block text-[9px] uppercase font-mono text-slate-500 font-bold mb-1">Sort By</label>
+                    <select id="ai-filter-sort" onchange="runAIModel()" class="w-full bg-white border border-stone-300 text-slate-800 rounded-lg px-2 py-1 focus:outline-none focus:border-red-500 font-mono">
                         <option value="probability" selected>Probability (High)</option>
                         <option value="area">Area Name (A-Z)</option>
                         <option value="city">City Name (A-Z)</option>
@@ -241,77 +242,77 @@
                 </div>
             </div>
 
-            <div id="ai-run-body" class="p-5 overflow-y-auto scrollbar-thin space-y-2.5 text-sm flex-1">
-                <p class="text-gray-500 italic text-xs">Executing model inference...</p>
+            <div id="ai-run-body" class="p-5 overflow-y-auto scrollbar-thin space-y-2.5 text-sm flex-1 bg-white">
+                <p class="text-slate-500 italic text-xs">Executing model inference...</p>
             </div>
         </div>
     </div>
 
     <!-- SHORTEST PATH & EVIDENTIARY CHAIN TRACER MODAL -->
-    <div id="path-modal" class="hidden fixed inset-0 z-[9999] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-gray-900 border border-cyan-700/80 rounded-2xl max-w-xl w-full shadow-2xl max-h-[88vh] flex flex-col overflow-hidden">
-            <div class="flex justify-between items-start p-5 border-b border-gray-800 bg-gray-950/60">
+    <div id="path-modal" class="hidden fixed inset-0 z-[9999] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white border border-cyan-300 rounded-2xl max-w-xl w-full shadow-2xl max-h-[88vh] flex flex-col overflow-hidden">
+            <div class="flex justify-between items-start p-5 border-b border-stone-200 bg-cyan-50/40">
                 <div>
-                    <div class="text-[10px] uppercase font-mono tracking-widest text-cyan-400 mb-1 flex items-center">
-                        <span class="w-2 h-2 bg-cyan-400 rounded-full mr-1.5 pulse-dot"></span>Graph Analysis Tool
+                    <div class="text-[10px] uppercase font-mono tracking-widest text-cyan-700 font-bold mb-1 flex items-center">
+                        <span class="w-2 h-2 bg-cyan-600 rounded-full mr-1.5 pulse-dot"></span>Graph Analysis Tool
                     </div>
-                    <div class="text-xl font-bold text-white">Shortest Path & Evidentiary Chain Tracer</div>
+                    <div class="text-xl font-bold text-slate-900">Shortest Path & Evidentiary Chain Tracer</div>
                 </div>
-                <button onclick="closePathModal()" class="text-gray-400 hover:text-white text-2xl leading-none px-2 py-1 rounded hover:bg-gray-800 transition">&times;</button>
+                <button onclick="closePathModal()" class="text-slate-400 hover:text-slate-700 text-2xl leading-none px-2 py-1 rounded hover:bg-stone-200 transition">&times;</button>
             </div>
 
-            <div class="bg-gray-950 border-b border-gray-800 px-5 py-3 space-y-3">
+            <div class="bg-stone-50 border-b border-stone-200 px-5 py-3 space-y-3">
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[9px] uppercase font-mono text-gray-400 font-bold mb-1">Source Entity (A)</label>
-                        <select id="path-source-select" class="w-full bg-gray-900 border border-gray-700 text-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-cyan-500 font-mono text-xs">
+                        <label class="block text-[9px] uppercase font-mono text-slate-500 font-bold mb-1">Source Entity (A)</label>
+                        <select id="path-source-select" class="w-full bg-white border border-stone-300 text-slate-800 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-cyan-500 font-mono text-xs">
                         </select>
                     </div>
                     <div>
-                        <label class="block text-[9px] uppercase font-mono text-gray-400 font-bold mb-1">Target Entity (B)</label>
-                        <select id="path-target-select" class="w-full bg-gray-900 border border-gray-700 text-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-cyan-500 font-mono text-xs">
+                        <label class="block text-[9px] uppercase font-mono text-slate-500 font-bold mb-1">Target Entity (B)</label>
+                        <select id="path-target-select" class="w-full bg-white border border-stone-300 text-slate-800 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-cyan-500 font-mono text-xs">
                         </select>
                     </div>
                 </div>
-                <button onclick="executePathTrace()" class="w-full bg-gradient-to-r from-cyan-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-bold py-2 rounded-xl text-xs transition shadow-md">
+                <button onclick="executePathTrace()" class="w-full bg-gradient-to-r from-cyan-600 to-indigo-600 hover:from-cyan-700 hover:to-indigo-700 text-white font-bold py-2 rounded-xl text-xs transition shadow-md">
                     Trace Shortest Connection Chain &rarr;
                 </button>
             </div>
 
-            <div id="path-results-body" class="p-5 overflow-y-auto scrollbar-thin space-y-3 text-sm flex-1">
-                <p class="text-gray-500 italic text-xs">Select Source and Target entities above to compute the evidentiary chain.</p>
+            <div id="path-results-body" class="p-5 overflow-y-auto scrollbar-thin space-y-3 text-sm flex-1 bg-white">
+                <p class="text-slate-500 italic text-xs">Select Source and Target entities above to compute the evidentiary chain.</p>
             </div>
         </div>
     </div>
 
-    <header class="bg-gray-900/90 border-b border-gray-800 px-4 py-2.5 flex flex-wrap justify-between items-center gap-3">
+    <header class="bg-white/90 border-b border-stone-200 px-4 py-2.5 flex flex-wrap justify-between items-center gap-3 shadow-sm backdrop-blur-md">
         <div class="flex items-center space-x-3">
-            <div class="bg-gradient-to-r from-red-600 to-red-800 text-white font-black px-2.5 py-1 rounded text-xs tracking-wider shadow-md font-mono">SS-AI</div>
-            <h1 class="text-base font-extrabold tracking-wide text-white">SyndicateScope <span class="text-xs text-gray-400 font-normal ml-1">v0.7</span></h1>
+            <div class="bg-gradient-to-r from-red-700 to-red-800 text-white font-black px-2.5 py-1 rounded text-xs tracking-wider shadow-md font-mono">SS-AI</div>
+            <h1 class="text-base font-extrabold tracking-wide text-slate-900">SyndicateScope <span class="text-xs text-slate-500 font-normal ml-1">v0.7</span></h1>
 
-            <div id="api-status-badge" class="bg-emerald-950/80 border border-emerald-800/80 text-emerald-400 text-[10px] font-mono px-2.5 py-0.5 rounded-full flex items-center shadow">
-                <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-1.5 pulse-dot"></span>
+            <div id="api-status-badge" class="bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-mono px-2.5 py-0.5 rounded-full flex items-center shadow-sm">
+                <span class="w-1.5 h-1.5 bg-emerald-600 rounded-full mr-1.5 pulse-dot"></span>
                 <span id="api-status-text">Connecting...</span>
             </div>
         </div>
 
         <div class="flex-1 max-w-md mx-2">
-            <div class="relative flex items-center bg-gray-950 border border-gray-700/80 rounded-lg px-3 py-1.5 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 transition shadow-inner">
-                <svg class="w-4 h-4 text-gray-400 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" id="search-input" onkeyup="handleSearch(event)" placeholder="Search person, FIR (e.g. FIR-101), or location..." class="bg-transparent text-xs text-white focus:outline-none w-full placeholder-gray-500 font-sans">
-                <span class="text-[10px] text-gray-500 border border-gray-800 rounded px-1.5 py-0.5 ml-1 font-mono">ENTER</span>
+            <div class="relative flex items-center bg-stone-100/80 border border-stone-300 rounded-lg px-3 py-1.5 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 transition shadow-inner">
+                <svg class="w-4 h-4 text-slate-400 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" id="search-input" onkeyup="handleSearch(event)" placeholder="Search person, FIR (e.g. FIR-101), or location..." class="bg-transparent text-xs text-slate-900 focus:outline-none w-full placeholder-slate-400 font-sans">
+                <span class="text-[10px] text-slate-400 border border-stone-300 bg-white rounded px-1.5 py-0.5 ml-1 font-mono shadow-2xs">ENTER</span>
             </div>
         </div>
 
         <div class="flex items-center space-x-4 text-xs shrink-0">
-            <div class="flex space-x-3 text-gray-400 border-r border-gray-800 pr-4 font-mono">
-                <div>Entities: <span id="stat-nodes" class="text-white font-bold">0</span></div>
-                <div>AI Links: <span id="stat-ai" class="text-red-400 font-bold">0</span></div>
-                <div>Bottlenecks: <span id="stat-bridges" class="text-amber-400 font-bold">0</span></div>
+            <div class="flex space-x-3 text-slate-500 border-r border-stone-200 pr-4 font-mono">
+                <div>Entities: <span id="stat-nodes" class="text-slate-900 font-bold">0</span></div>
+                <div>AI Links: <span id="stat-ai" class="text-red-700 font-bold">0</span></div>
+                <div>Bottlenecks: <span id="stat-bridges" class="text-amber-700 font-bold">0</span></div>
             </div>
             <div class="flex items-center space-x-2">
-                <div class="text-gray-300">Role: <span id="current-role-label" class="text-red-400 font-bold">-</span></div>
-                <button onclick="openLoginModal()" class="text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700 px-2 py-0.5 rounded font-mono transition">Switch Role</button>
+                <div class="text-slate-600">Role: <span id="current-role-label" class="text-red-700 font-bold">-</span></div>
+                <button onclick="openLoginModal()" class="text-[10px] bg-stone-100 hover:bg-stone-200 text-slate-700 border border-stone-300 px-2 py-0.5 rounded font-mono transition shadow-2xs">Switch Role</button>
             </div>
         </div>
     </header>
@@ -319,41 +320,41 @@
     <main class="flex-1 p-3 grid grid-cols-12 gap-3 w-full max-w-[1920px] mx-auto">
         <!-- LEFT: Visual Graph & Geo Map Canvas (7 Columns) -->
         <div class="col-span-12 lg:col-span-7 flex flex-col relative">
-            <div class="absolute top-3 left-3 z-10 flex flex-wrap gap-1.5 bg-gray-900/90 backdrop-blur-md p-1.5 rounded-xl border border-gray-700/80 shadow-2xl items-center">
-                <button onclick="resetGraph()" class="text-[10px] font-bold px-2.5 py-1.5 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition border border-gray-700">Reset View</button>
-                <div class="w-px h-5 bg-gray-700 my-auto mx-0.5"></div>
-                <button id="btn-PERSON" onclick="toggleFilter('PERSON')" class="filter-btn active text-[10px] font-bold px-2 py-1.5 rounded-lg bg-red-900/60 text-red-300 border border-red-700/80 transition">Persons</button>
-                <button id="btn-LOCATION" onclick="toggleFilter('LOCATION')" class="filter-btn active text-[10px] font-bold px-2 py-1.5 rounded-lg bg-indigo-900/60 text-indigo-300 border border-indigo-700/80 transition">Locations</button>
-                <button id="btn-VEHICLE" onclick="toggleFilter('VEHICLE')" class="filter-btn active text-[10px] font-bold px-2 py-1.5 rounded-lg bg-amber-900/60 text-amber-300 border border-amber-700/80 transition">Vehicles</button>
-                <button id="btn-ORGANIZATION" onclick="toggleFilter('ORGANIZATION')" class="filter-btn active text-[10px] font-bold px-2 py-1.5 rounded-lg bg-emerald-900/60 text-emerald-300 border border-emerald-700/80 transition">Orgs</button>
+            <div class="absolute top-3 left-3 z-10 flex flex-wrap gap-1.5 bg-white/90 backdrop-blur-md p-1.5 rounded-xl border border-stone-200 shadow-lg items-center">
+                <button onclick="resetGraph()" class="text-[10px] font-bold px-2.5 py-1.5 bg-stone-100 hover:bg-stone-200 text-slate-800 rounded-lg transition border border-stone-300 shadow-2xs">Reset View</button>
+                <div class="w-px h-5 bg-stone-200 my-auto mx-0.5"></div>
+                <button id="btn-PERSON" onclick="toggleFilter('PERSON')" class="filter-btn active text-[10px] font-bold px-2 py-1.5 rounded-lg bg-red-100 text-red-900 border border-red-300 transition">Persons</button>
+                <button id="btn-LOCATION" onclick="toggleFilter('LOCATION')" class="filter-btn active text-[10px] font-bold px-2 py-1.5 rounded-lg bg-indigo-100 text-indigo-900 border border-indigo-300 transition">Locations</button>
+                <button id="btn-VEHICLE" onclick="toggleFilter('VEHICLE')" class="filter-btn active text-[10px] font-bold px-2 py-1.5 rounded-lg bg-amber-100 text-amber-900 border border-amber-300 transition">Vehicles</button>
+                <button id="btn-ORGANIZATION" onclick="toggleFilter('ORGANIZATION')" class="filter-btn active text-[10px] font-bold px-2 py-1.5 rounded-lg bg-emerald-100 text-emerald-900 border border-emerald-300 transition">Orgs</button>
 
-                <div class="w-px h-5 bg-gray-700 my-auto mx-0.5"></div>
+                <div class="w-px h-5 bg-stone-200 my-auto mx-0.5"></div>
 
-                <div class="flex items-center space-x-1 bg-gray-950/80 px-2 py-1 rounded-lg border border-gray-700/80">
-                    <span class="text-[9px] font-mono font-bold text-gray-400 uppercase">Layout:</span>
-                    <select id="graph-layout-select" onchange="changeGraphLayout(this.value)" class="bg-gray-900 text-white text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border border-gray-700 focus:outline-none focus:border-indigo-500">
+                <div class="flex items-center space-x-1 bg-stone-50 px-2 py-1 rounded-lg border border-stone-200">
+                    <span class="text-[9px] font-mono font-bold text-slate-500 uppercase">Layout:</span>
+                    <select id="graph-layout-select" onchange="changeGraphLayout(this.value)" class="bg-white text-slate-800 text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border border-stone-300 focus:outline-none focus:border-indigo-500">
                         <option value="physics" selected>Force Atlas 2</option>
                         <option value="hierarchical">Hierarchical Tree</option>
                         <option value="concentric">Concentric Radial</option>
                     </select>
                 </div>
 
-                <div class="flex items-center space-x-1 bg-gray-950/80 px-2 py-1 rounded-lg border border-gray-700/80">
-                    <span class="text-[9px] font-mono font-bold text-gray-400 uppercase">City:</span>
-                    <select id="graph-filter-city" onchange="loadGraphData()" class="bg-gray-900 text-white text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border border-gray-700 focus:outline-none focus:border-red-500">
+                <div class="flex items-center space-x-1 bg-stone-50 px-2 py-1 rounded-lg border border-stone-200">
+                    <span class="text-[9px] font-mono font-bold text-slate-500 uppercase">City:</span>
+                    <select id="graph-filter-city" onchange="loadGraphData()" class="bg-white text-slate-800 text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border border-stone-300 focus:outline-none focus:border-red-500">
                         <option value="all">Global (All)</option>
                         <option value="Bengaluru">Bengaluru</option>
                         <option value="Mumbai">Mumbai</option>
                     </select>
                 </div>
 
-                <div class="w-px h-5 bg-gray-700 my-auto mx-0.5"></div>
+                <div class="w-px h-5 bg-stone-200 my-auto mx-0.5"></div>
 
-                <button id="btn-path-finder" onclick="openPathModal()" class="text-[10px] font-bold px-2.5 py-1.5 bg-cyan-950 hover:bg-cyan-900 text-cyan-300 rounded-lg transition border border-cyan-700/80 flex items-center space-x-1 shadow-md">
+                <button id="btn-path-finder" onclick="openPathModal()" class="text-[10px] font-bold px-2.5 py-1.5 bg-cyan-100 hover:bg-cyan-200 text-cyan-900 rounded-lg transition border border-cyan-300 flex items-center space-x-1 shadow-sm">
                     <span>🔍</span><span>Path Finder</span>
                 </button>
 
-                <button id="btn-map-view" onclick="toggleMapView()" class="text-[10px] font-bold px-2 py-1.5 bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 rounded-lg transition border border-indigo-700/80 flex items-center space-x-1">
+                <button id="btn-map-view" onclick="toggleMapView()" class="text-[10px] font-bold px-2 py-1.5 bg-indigo-100 hover:bg-indigo-200 text-indigo-900 rounded-lg transition border border-indigo-300 flex items-center space-x-1">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
                     <span id="btn-map-text">Spatial Map</span>
                 </button>
@@ -362,33 +363,33 @@
                 </button>
             </div>
 
-            <div id="focus-controls" class="hidden absolute top-3 right-3 z-10 flex items-center space-x-1.5 bg-indigo-950/90 backdrop-blur-md p-1.5 rounded-xl border border-indigo-600 shadow-2xl">
-                <span class="text-[10px] font-bold text-indigo-200 px-2 font-mono">FOCUS: <span id="focus-label" class="text-white">None</span></span>
-                <button onclick="expandFocus(1)" class="text-[10px] font-bold px-2.5 py-1 bg-indigo-800 hover:bg-indigo-700 text-white rounded-lg transition">1-Hop</button>
-                <button onclick="expandFocus(2)" class="text-[10px] font-bold px-2.5 py-1 bg-indigo-800 hover:bg-indigo-700 text-white rounded-lg transition">2-Hop</button>
-                <button onclick="clearFocus()" class="text-[10px] font-bold px-2.5 py-1 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition ml-1">Clear</button>
+            <div id="focus-controls" class="hidden absolute top-3 right-3 z-10 flex items-center space-x-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-xl border border-indigo-300 shadow-lg">
+                <span class="text-[10px] font-bold text-indigo-900 px-2 font-mono">FOCUS: <span id="focus-label" class="text-indigo-700">None</span></span>
+                <button onclick="expandFocus(1)" class="text-[10px] font-bold px-2.5 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition">1-Hop</button>
+                <button onclick="expandFocus(2)" class="text-[10px] font-bold px-2.5 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition">2-Hop</button>
+                <button onclick="clearFocus()" class="text-[10px] font-bold px-2.5 py-1 bg-stone-200 hover:bg-stone-300 text-slate-800 rounded-lg transition ml-1">Clear</button>
             </div>
 
             <div id="network-canvas"></div>
 
             <div id="map-canvas-wrapper" class="hidden">
                 <div id="map-canvas"></div>
-                <button id="btn-close-map" onclick="toggleMapView()" class="absolute top-3 right-3 z-[1000] bg-red-600 hover:bg-red-700 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow-2xl flex items-center space-x-2 transition border border-red-400/50 cursor-pointer backdrop-blur-md group">
+                <button id="btn-close-map" onclick="toggleMapView()" class="absolute top-3 right-3 z-[1000] bg-red-700 hover:bg-red-800 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow-xl flex items-center space-x-2 transition border border-red-500 cursor-pointer backdrop-blur-md group">
                     <svg class="w-4 h-4 transition transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                     <span>Close Map (Return to Graph)</span>
                 </button>
             </div>
 
-            <div class="absolute bottom-3 left-3 bg-gray-900/85 backdrop-blur-md border border-gray-700/80 p-2.5 rounded-xl text-[10px] space-y-1 pointer-events-none shadow-2xl max-w-xs">
-                <div class="font-bold text-gray-200 mb-1 border-b border-gray-700/80 pb-0.5 flex justify-between">
+            <div class="absolute bottom-3 left-3 bg-white/90 backdrop-blur-md border border-stone-200 p-2.5 rounded-xl text-[10px] space-y-1 pointer-events-none shadow-lg max-w-xs">
+                <div class="font-bold text-slate-800 mb-1 border-b border-stone-200 pb-0.5 flex justify-between">
                     <span>Graph Visual Legend</span>
-                    <span class="text-gray-500 font-mono">Key</span>
+                    <span class="text-slate-400 font-mono">Key</span>
                 </div>
                 <div class="grid grid-cols-2 gap-x-3 gap-y-1">
-                    <div class="flex items-center space-x-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#ef4444] inline-block shadow"></span><span class="text-gray-300">Person</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#6366f1] inline-block shadow"></span><span class="text-gray-300">Location</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#f59e0b] inline-block shadow"></span><span class="text-gray-300">Vehicle</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#10b981] inline-block shadow"></span><span class="text-gray-300">Organization</span></div>
+                    <div class="flex items-center space-x-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#dc2626] inline-block shadow-sm"></span><span class="text-slate-700">Person</span></div>
+                    <div class="flex items-center space-x-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#4f46e5] inline-block shadow-sm"></span><span class="text-slate-700">Location</span></div>
+                    <div class="flex items-center space-x-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#d97706] inline-block shadow-sm"></span><span class="text-slate-700">Vehicle</span></div>
+                    <div class="flex items-center space-x-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#059669] inline-block shadow-sm"></span><span class="text-slate-700">Organization</span></div>
                 </div>
             </div>
         </div>
@@ -396,96 +397,96 @@
         <!-- RIGHT: Side Outcome & Intelligence Panel (5 Columns) -->
         <div class="col-span-12 lg:col-span-5 flex flex-col space-y-2 overflow-hidden h-[calc(100vh-130px)]">
 
-            <div class="flex bg-gray-900 border border-gray-800 rounded-xl p-1 space-x-1 text-[10px] font-bold uppercase tracking-wide shrink-0 shadow-inner">
-                <button id="tab-btn-inspector" onclick="switchTab('inspector')" class="tab-btn flex-1 py-1.5 rounded-lg text-gray-400 border border-transparent">Inspector</button>
-                <button id="tab-btn-targets" onclick="switchTab('targets')" class="tab-btn flex-1 py-1.5 rounded-lg text-gray-400 border border-transparent">Targets</button>
-                <button id="tab-btn-cells" onclick="switchTab('cells')" class="tab-btn flex-1 py-1.5 rounded-lg text-amber-400 border border-transparent">Cells</button>
-                <button id="tab-btn-firs" onclick="switchTab('firs')" class="tab-btn flex-1 py-1.5 rounded-lg text-purple-400 border border-transparent">FIRs</button>
-                <button id="tab-btn-merges" onclick="switchTab('merges')" class="tab-btn flex-1 py-1.5 rounded-lg text-gray-400 border border-transparent relative">
+            <div class="flex bg-stone-200/80 border border-stone-300 rounded-xl p-1 space-x-1 text-[10px] font-bold uppercase tracking-wide shrink-0 shadow-inner">
+                <button id="tab-btn-inspector" onclick="switchTab('inspector')" class="tab-btn flex-1 py-1.5 rounded-lg text-slate-600 border border-transparent">Inspector</button>
+                <button id="tab-btn-targets" onclick="switchTab('targets')" class="tab-btn flex-1 py-1.5 rounded-lg text-slate-600 border border-transparent">Targets</button>
+                <button id="tab-btn-cells" onclick="switchTab('cells')" class="tab-btn flex-1 py-1.5 rounded-lg text-amber-800 border border-transparent">Cells</button>
+                <button id="tab-btn-firs" onclick="switchTab('firs')" class="tab-btn flex-1 py-1.5 rounded-lg text-purple-800 border border-transparent">FIRs</button>
+                <button id="tab-btn-merges" onclick="switchTab('merges')" class="tab-btn flex-1 py-1.5 rounded-lg text-slate-600 border border-transparent relative">
                     Merges
                     <span id="merges-badge" class="hidden absolute -top-1 -right-1 bg-red-600 text-white text-[9px] font-bold rounded-full w-4 h-4 items-center justify-center">0</span>
                 </button>
-                <button id="tab-btn-audit" onclick="switchTab('audit')" class="tab-btn hidden flex-1 py-1.5 rounded-lg text-gray-400 border border-transparent">Audit</button>
-                <button id="tab-btn-eval" onclick="switchTab('eval')" class="tab-btn hidden flex-1 py-1.5 rounded-lg text-gray-400 border border-transparent">Judge</button>
+                <button id="tab-btn-audit" onclick="switchTab('audit')" class="tab-btn hidden flex-1 py-1.5 rounded-lg text-slate-600 border border-transparent">Audit</button>
+                <button id="tab-btn-eval" onclick="switchTab('eval')" class="tab-btn hidden flex-1 py-1.5 rounded-lg text-slate-600 border border-transparent">Judge</button>
             </div>
 
             <!-- Panel 1: Detailed Intelligence Inspector -->
-            <div id="panel-inspector" class="tab-panel bg-gray-900 border border-gray-800 rounded-xl p-4 shadow-xl flex-1 overflow-y-auto scrollbar-thin">
-                <h3 class="text-[10px] font-bold uppercase tracking-widest text-indigo-400 mb-2 border-b border-gray-800 pb-1 font-mono flex justify-between items-center">
+            <div id="panel-inspector" class="tab-panel bg-white border border-stone-200 rounded-xl p-4 shadow-sm flex-1 overflow-y-auto scrollbar-thin">
+                <h3 class="text-[10px] font-bold uppercase tracking-widest text-indigo-800 mb-2 border-b border-stone-200 pb-1 font-mono flex justify-between items-center">
                     <span>Intelligence Inspector</span>
-                    <span class="text-[9px] text-gray-500 font-normal">Interactive Node/Edge Dossier</span>
+                    <span class="text-[9px] text-slate-400 font-normal">Interactive Node/Edge Dossier</span>
                 </h3>
-                <div id="inspector-content" class="text-xs text-gray-400 italic">
+                <div id="inspector-content" class="text-xs text-slate-500 italic">
                     Select any node or link in the graph or spatial map view to inspect underlying intelligence details.
                 </div>
             </div>
 
             <!-- Panel 2: High-Value Target Ranking -->
-            <div id="panel-targets" class="tab-panel hidden bg-gray-900 border border-gray-800 rounded-xl p-4 shadow-xl flex-1 flex-col overflow-hidden">
-                <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-1">
-                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-red-400 font-mono">High-Value Target Ranking</h3>
-                    <span class="text-[9px] bg-red-950/80 text-red-400 border border-red-800 px-2 py-0.5 rounded font-mono font-bold">Graph-RAG</span>
+            <div id="panel-targets" class="tab-panel hidden bg-white border border-stone-200 rounded-xl p-4 shadow-sm flex-1 flex-col overflow-hidden">
+                <div class="flex justify-between items-center mb-2 border-b border-stone-200 pb-1">
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-red-800 font-mono">High-Value Target Ranking</h3>
+                    <span class="text-[9px] bg-red-100 text-red-800 border border-red-200 px-2 py-0.5 rounded font-mono font-bold">Graph-RAG</span>
                 </div>
                 <div id="influence-list" class="overflow-y-auto scrollbar-thin space-y-2 pr-1 text-xs flex-1">
-                    <p class="text-gray-500 italic text-xs">Loading influence scores...</p>
+                    <p class="text-slate-500 italic text-xs">Loading influence scores...</p>
                 </div>
             </div>
 
             <!-- Panel 3: Syndicate Sub-Cells & Bottleneck Cluster Analysis -->
-            <div id="panel-cells" class="tab-panel hidden bg-gray-900 border border-gray-800 rounded-xl p-4 shadow-xl flex-1 flex-col overflow-hidden">
-                <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-1">
-                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-amber-400 font-mono">Syndicate Sub-Cell Breakdown</h3>
-                    <button onclick="renderCellBreakdown()" class="text-[10px] text-amber-400 hover:underline font-bold">Refresh</button>
+            <div id="panel-cells" class="tab-panel hidden bg-white border border-stone-200 rounded-xl p-4 shadow-sm flex-1 flex-col overflow-hidden">
+                <div class="flex justify-between items-center mb-2 border-b border-stone-200 pb-1">
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-amber-800 font-mono">Syndicate Sub-Cell Breakdown</h3>
+                    <button onclick="renderCellBreakdown()" class="text-[10px] text-amber-700 hover:underline font-bold">Refresh</button>
                 </div>
                 <div id="cells-list" class="overflow-y-auto scrollbar-thin space-y-3 pr-1 text-xs flex-1">
-                    <p class="text-gray-500 italic text-xs">Analyzing criminal sub-communities and bottleneck bridges...</p>
+                    <p class="text-slate-500 italic text-xs">Analyzing criminal sub-communities and bottleneck bridges...</p>
                 </div>
             </div>
 
             <!-- Panel 4: FIR Database Explorer & Search -->
-            <div id="panel-firs" class="tab-panel hidden bg-gray-900 border border-gray-800 rounded-xl p-4 shadow-xl flex-1 flex-col overflow-hidden">
-                <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-1">
-                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-purple-400 font-mono">FIR Database Explorer</h3>
-                    <button onclick="loadFIRs()" class="text-[10px] text-purple-400 hover:text-purple-300 font-bold">Refresh</button>
+            <div id="panel-firs" class="tab-panel hidden bg-white border border-stone-200 rounded-xl p-4 shadow-sm flex-1 flex-col overflow-hidden">
+                <div class="flex justify-between items-center mb-2 border-b border-stone-200 pb-1">
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-purple-800 font-mono">FIR Database Explorer</h3>
+                    <button onclick="loadFIRs()" class="text-[10px] text-purple-700 hover:text-purple-900 font-bold">Refresh</button>
                 </div>
                 <div class="mb-2.5">
-                    <input type="text" id="fir-search-input" onkeyup="if(event.key==='Enter') loadFIRs(this.value)" placeholder="Search FIR ID, location, or keyword..." class="w-full bg-gray-950 border border-gray-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-purple-600 placeholder-gray-600 font-sans">
+                    <input type="text" id="fir-search-input" onkeyup="if(event.key==='Enter') loadFIRs(this.value)" placeholder="Search FIR ID, location, or keyword..." class="w-full bg-stone-50 border border-stone-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:border-purple-600 placeholder-slate-400 font-sans">
                 </div>
                 <div id="firs-list" class="overflow-y-auto scrollbar-thin space-y-2 pr-1 text-xs flex-1">
-                    <p class="text-gray-500 italic text-xs">Loading FIR records...</p>
+                    <p class="text-slate-500 italic text-xs">Loading FIR records...</p>
                 </div>
             </div>
 
             <!-- Panel 5: Entity Resolution Merges -->
-            <div id="panel-merges" class="tab-panel hidden bg-gray-900 border border-gray-800 rounded-xl p-4 shadow-xl flex-1 flex-col overflow-hidden">
-                <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-1">
-                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-indigo-400 font-mono">Entity Resolution Merges</h3>
-                    <button onclick="loadMerges()" class="text-[10px] text-indigo-400 hover:text-indigo-300 font-bold">Refresh</button>
+            <div id="panel-merges" class="tab-panel hidden bg-white border border-stone-200 rounded-xl p-4 shadow-sm flex-1 flex-col overflow-hidden">
+                <div class="flex justify-between items-center mb-2 border-b border-stone-200 pb-1">
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-indigo-800 font-mono">Entity Resolution Merges</h3>
+                    <button onclick="loadMerges()" class="text-[10px] text-indigo-700 hover:text-indigo-900 font-bold">Refresh</button>
                 </div>
                 <div id="merges-list" class="overflow-y-auto scrollbar-thin space-y-2 pr-1 text-xs flex-1">
-                    <p class="text-gray-500 italic text-xs">Loading merges...</p>
+                    <p class="text-slate-500 italic text-xs">Loading merges...</p>
                 </div>
             </div>
 
             <!-- Panel 6: Audit Trail (Admin) -->
-            <div id="panel-audit" class="tab-panel hidden bg-gray-900 border border-gray-800 rounded-xl p-4 shadow-xl flex-1 flex-col overflow-hidden">
-                <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-1">
-                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-gray-500 font-mono">Audit Log Trail</h3>
-                    <button onclick="loadAuditLog()" class="text-[10px] text-indigo-400 hover:text-indigo-300 font-bold">Refresh</button>
+            <div id="panel-audit" class="tab-panel hidden bg-white border border-stone-200 rounded-xl p-4 shadow-sm flex-1 flex-col overflow-hidden">
+                <div class="flex justify-between items-center mb-2 border-b border-stone-200 pb-1">
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 font-mono">Audit Log Trail</h3>
+                    <button onclick="loadAuditLog()" class="text-[10px] text-indigo-700 hover:text-indigo-900 font-bold">Refresh</button>
                 </div>
                 <div id="audit-list" class="overflow-y-auto scrollbar-thin space-y-2 pr-1 text-[10px] flex-1 font-mono">
-                    <p class="text-gray-500 italic text-xs font-sans">Loading audit trail...</p>
+                    <p class="text-slate-500 italic text-xs font-sans">Loading audit trail...</p>
                 </div>
             </div>
 
             <!-- Panel 7: Judge Mode Evaluation (Admin) -->
-            <div id="panel-eval" class="tab-panel hidden bg-gray-900 border border-gray-800 rounded-xl p-4 shadow-xl flex-1 flex-col overflow-hidden">
-                <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-1">
-                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-emerald-400 font-mono">Judge Mode Scoring</h3>
-                    <button onclick="loadEvaluation()" class="text-[10px] text-indigo-400 hover:text-indigo-300 font-bold">Run Evaluation</button>
+            <div id="panel-eval" class="tab-panel hidden bg-white border border-stone-200 rounded-xl p-4 shadow-sm flex-1 flex-col overflow-hidden">
+                <div class="flex justify-between items-center mb-2 border-b border-stone-200 pb-1">
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-emerald-800 font-mono">Judge Mode Scoring</h3>
+                    <button onclick="loadEvaluation()" class="text-[10px] text-indigo-700 hover:text-indigo-900 font-bold">Run Evaluation</button>
                 </div>
                 <div id="eval-content" class="overflow-y-auto scrollbar-thin space-y-3 pr-1 text-xs flex-1">
-                    <p class="text-gray-500 italic text-xs">Click "Run Evaluation" to score current system output against ground truth.</p>
+                    <p class="text-slate-500 italic text-xs">Click "Run Evaluation" to score current system output against ground truth.</p>
                 </div>
             </div>
 
@@ -494,23 +495,23 @@
 
     <script>
         const COLOR_MAP = {
-            "PERSON": "#ef4444",
-            "LOCATION": "#6366f1",
-            "VEHICLE": "#f59e0b",
-            "ORGANIZATION": "#10b981",
-            "PHONE_NUMBER": "#a855f7",
-            "FINANCIAL": "#eab308",
-            "CASE": "#9ca3af"
+            "PERSON": "#dc2626",
+            "LOCATION": "#4f46e5",
+            "VEHICLE": "#d97706",
+            "ORGANIZATION": "#059669",
+            "PHONE_NUMBER": "#9333ea",
+            "FINANCIAL": "#ca8a04",
+            "CASE": "#64748b"
         };
 
         const EDGE_STYLE = {
-            "CALL":             { color: "#64748b", dashes: false },
-            "TRANSACTION":      { color: "#14b8a6", dashes: false },
-            "FIR_CO_MENTION":   { color: "#a855f7", dashes: [2, 3] },
-            "REGISTERED_OWNER": { color: "#f59e0b", dashes: false },
-            "ORG_MEMBERSHIP":   { color: "#10b981", dashes: false },
-            "TOWER_PING":       { color: "#6366f1", dashes: [1, 4] },
-            "AI_PREDICTED":     { color: "#ef4444", dashes: [6, 4] }
+            "CALL":             { color: "#475569", dashes: false },
+            "TRANSACTION":      { color: "#0d9488", dashes: false },
+            "FIR_CO_MENTION":   { color: "#9333ea", dashes: [2, 3] },
+            "REGISTERED_OWNER": { color: "#d97706", dashes: false },
+            "ORG_MEMBERSHIP":   { color: "#059669", dashes: false },
+            "TOWER_PING":       { color: "#4f46e5", dashes: [1, 4] },
+            "AI_PREDICTED":     { color: "#dc2626", dashes: [6, 4] }
         };
 
         // Fully Consistent Intelligence Dataset (Fallback Engine)
@@ -694,7 +695,7 @@
 
                 isUsingMockBackend = false;
                 if (statusBadge && statusText) {
-                    statusBadge.className = "bg-emerald-950/80 border border-emerald-800/80 text-emerald-400 text-[10px] font-mono px-2.5 py-0.5 rounded-full flex items-center shadow";
+                    statusBadge.className = "bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-mono px-2.5 py-0.5 rounded-full flex items-center shadow-sm";
                     statusText.innerText = "Live Backend Online";
                 }
 
@@ -702,7 +703,7 @@
             } catch (error) {
                 isUsingMockBackend = true;
                 if (statusBadge && statusText) {
-                    statusBadge.className = "bg-amber-950/80 border border-amber-800/80 text-amber-400 text-[10px] font-mono px-2.5 py-0.5 rounded-full flex items-center shadow";
+                    statusBadge.className = "bg-amber-50 border border-amber-200 text-amber-800 text-[10px] font-mono px-2.5 py-0.5 rounded-full flex items-center shadow-sm";
                     statusText.innerText = "Demo Mode (Standalone)";
                 }
                 return mockApiCall(endpoint);
@@ -794,7 +795,6 @@
                 };
             }
 
-            // Corrected parameter order in map callback (n = item, idx = index)
             if (path === "/influence") {
                 return MOCK_DATABASE.nodes
                     .filter(n => n.entity_type === "PERSON")
@@ -880,7 +880,7 @@
                 preferCanvas: true
             }).setView(BENGALURU_CENTER, 11);
 
-            const darkTiles = L.tileLayer('https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=cb1_331h_1_0d16a8dd5a91f3dd726e5f1b', {
+            const lightTiles = L.tileLayer('https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=cb1_331h_1_0d16a8dd5a91f3dd726e5f1b', {
                 attribution: '&copy; OpenStreetMap &copy; CARTO',
                 subdomains: 'abcd',
                 maxZoom: 19
@@ -891,10 +891,10 @@
                 maxZoom: 19
             });
 
-            darkTiles.addTo(leafletMap);
-            darkTiles.on('tileerror', function() {
-                if (leafletMap.hasLayer(darkTiles)) {
-                    leafletMap.removeLayer(darkTiles);
+            lightTiles.addTo(leafletMap);
+            lightTiles.on('tileerror', function() {
+                if (leafletMap.hasLayer(lightTiles)) {
+                    leafletMap.removeLayer(lightTiles);
                     osmTiles.addTo(leafletMap);
                 }
             });
@@ -970,9 +970,9 @@
                 const style = EDGE_STYLE[styleKey] || EDGE_STYLE["CALL"];
 
                 const polyline = L.polyline([[fromCoord.lat, fromCoord.lng], [toCoord.lat, toCoord.lng]], {
-                    color: style.color || "#38bdf8",
-                    weight: e.raw?.dashed ? 2 : 1.5,
-                    opacity: 0.8,
+                    color: style.color || "#0284c7",
+                    weight: e.raw?.dashed ? 2.5 : 2,
+                    opacity: 0.85,
                     dashArray: style.dashes ? "5, 5" : null
                 }).addTo(mapMarkersLayer);
 
@@ -989,15 +989,15 @@
                 bounds.push([coord.lat, coord.lng]);
                 const raw = n.raw || {};
                 const etype = (raw.entity_type || "PERSON").toUpperCase();
-                const baseColor = COLOR_MAP[etype] || "#9ca3af";
-                const radius = Math.max(5, Math.min(12, (raw.degree || 1) * 1.2 + 4));
+                const baseColor = COLOR_MAP[etype] || "#64748b";
+                const radius = Math.max(6, Math.min(13, (raw.degree || 1) * 1.2 + 4));
 
                 const marker = L.circleMarker([coord.lat, coord.lng], {
                     radius: radius,
                     color: "#ffffff",
-                    weight: 1.5,
+                    weight: 2,
                     fillColor: baseColor,
-                    fillOpacity: 0.9
+                    fillOpacity: 0.95
                 }).addTo(mapMarkersLayer);
 
                 marker.bindTooltip(`<b>${raw.canonical_name || n.label}</b> <span style="opacity:0.8">(${etype})</span>`, {
@@ -1007,10 +1007,10 @@
 
                 marker.bindPopup(`
                     <div style="min-width:180px; padding:2px;">
-                        <div style="font-size:10px; font-weight:bold; color:#a5b4fc; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px;">${etype} RECORD</div>
-                        <div style="font-size:14px; font-weight:bold; color:#fff; margin-bottom:4px;">${raw.canonical_name || n.label}</div>
-                        <div style="font-size:11px; color:#cbd5e1; margin-bottom:8px;">ID: <code style="color:#f472b6; font-weight:bold;">${n.id}</code> &middot; Degree: <b>${raw.degree || 0}</b></div>
-                        <button onclick="openProfileOrInspector('${n.id}', '${etype}')" style="background:#4f46e5; color:#fff; border:none; padding:5px 10px; border-radius:6px; font-size:11px; font-weight:bold; cursor:pointer; width:100%; text-align:center;">Inspect Entity Profile &rarr;</button>
+                        <div style="font-size:10px; font-weight:bold; color:#4338ca; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px;">${etype} RECORD</div>
+                        <div style="font-size:14px; font-weight:bold; color:#0f172a; margin-bottom:4px;">${raw.canonical_name || n.label}</div>
+                        <div style="font-size:11px; color:#475569; margin-bottom:8px;">ID: <code style="color:#be185d; font-weight:bold;">${n.id}</code> &middot; Degree: <b>${raw.degree || 0}</b></div>
+                        <button onclick="openProfileOrInspector('${n.id}', '${etype}')" style="background:#4338ca; color:#fff; border:none; padding:5px 10px; border-radius:6px; font-size:11px; font-weight:bold; cursor:pointer; width:100%; text-align:center;">Inspect Entity Profile &rarr;</button>
                     </div>
                 `);
 
@@ -1040,9 +1040,9 @@
             const roleLabel = document.getElementById("current-role-label");
             if (roleLabel) {
                 roleLabel.innerText = label + " (" + role + ")";
-                if (role === "Admin") roleLabel.className = "text-red-400 font-bold";
-                else if (role === "Analyst") roleLabel.className = "text-indigo-400 font-bold";
-                else roleLabel.className = "text-gray-300 font-bold";
+                if (role === "Admin") roleLabel.className = "text-red-700 font-bold";
+                else if (role === "Analyst") roleLabel.className = "text-indigo-700 font-bold";
+                else roleLabel.className = "text-slate-700 font-bold";
             }
 
             document.getElementById("login-modal").classList.add("hidden");
@@ -1120,8 +1120,8 @@
             const btnText = document.getElementById("btn-map-text");
 
             if (btn) {
-                btn.classList.toggle("bg-indigo-700", mapViewActive);
-                btn.classList.toggle("bg-indigo-900/80", !mapViewActive);
+                btn.classList.toggle("bg-indigo-200", mapViewActive);
+                btn.classList.toggle("bg-indigo-100", !mapViewActive);
             }
             if (btnText) {
                 btnText.innerText = mapViewActive ? "Graph Canvas View" : "Spatial Map View";
@@ -1164,15 +1164,15 @@
             document.getElementById("stat-bridges").innerText = bridgesCount;
 
             const formattedNodes = data.nodes.map(n => {
-                const color = COLOR_MAP[n.group] || "#9ca3af";
+                const color = COLOR_MAP[n.group] || "#64748b";
                 const size = Math.max(12, Math.min(36, (n.score || 0.2) * 42 + 10));
                 return {
                     id: n.id,
                     label: n.label,
                     size: size,
-                    color: { background: color, border: n.isBridge ? "#f59e0b" : "#111827", highlight: { border: "#ffffff" } },
+                    color: { background: color, border: n.isBridge ? "#d97706" : "#0f172a", highlight: { border: "#000000" } },
                     borderWidth: n.isBridge ? 3 : 2,
-                    font: { color: "#f3f4f6", size: 11, face: "Inter, sans-serif" },
+                    font: { color: "#0f172a", size: 11, face: "Inter, sans-serif" },
                     raw: n
                 };
             });
@@ -1184,7 +1184,7 @@
                     id: `edge_${idx}`,
                     from: e.from,
                     to: e.to,
-                    color: { color: style.color, opacity: e.dashed ? 0.9 : 0.7 },
+                    color: { color: style.color, opacity: e.dashed ? 0.9 : 0.75 },
                     dashes: style.dashes,
                     width: e.dashed ? 2.2 : 1.5,
                     smooth: { type: 'continuous' },
@@ -1286,7 +1286,7 @@
                     }
                 } else {
                     resetVisualFading();
-                    document.getElementById("inspector-content").innerHTML = `<p class="text-gray-500 italic text-xs">Select any node or link in the graph or spatial map view to inspect underlying intelligence details.</p>`;
+                    document.getElementById("inspector-content").innerHTML = `<p class="text-slate-500 italic text-xs">Select any node or link in the graph or spatial map view to inspect underlying intelligence details.</p>`;
                 }
             });
         }
@@ -1335,7 +1335,7 @@
 
             const updateEdges = [];
             globalEdges.forEach(e => {
-                const opacity = connectedEdges.includes(e.id) ? (e.dashes ? 0.9 : 0.65) : 0.05;
+                const opacity = connectedEdges.includes(e.id) ? (e.dashes ? 0.9 : 0.75) : 0.05;
                 updateEdges.push({ id: e.id, color: { opacity: opacity } });
             });
             globalEdges.update(updateEdges);
@@ -1348,7 +1348,7 @@
             globalNodes.update(updateNodes);
 
             const updateEdges = [];
-            globalEdges.forEach(e => updateEdges.push({ id: e.id, color: { opacity: e.dashes ? 0.9 : 0.65 } }));
+            globalEdges.forEach(e => updateEdges.push({ id: e.id, color: { opacity: e.dashes ? 0.9 : 0.75 } }));
             globalEdges.update(updateEdges);
         }
 
@@ -1413,49 +1413,49 @@
         }
 
         function renderNodeInspector(node) {
-            const priority = node.score > 0.4 ? '<span class="bg-red-950 text-red-400 border border-red-800 px-2 py-0.5 rounded text-[10px] font-bold">HIGH</span>' : (node.score > 0.2 ? '<span class="bg-amber-950 text-amber-400 border border-amber-800 px-2 py-0.5 rounded text-[10px] font-bold">MEDIUM</span>' : '<span class="bg-gray-800 text-gray-400 border border-gray-700 px-2 py-0.5 rounded text-[10px]">LOW</span>');
-            const bridgeTag = node.isBridge ? '<span class="bg-amber-950 text-amber-400 border border-amber-800 px-2 py-0.5 rounded text-[10px] font-bold ml-1">BOTTLENECK BRIDGE</span>' : '';
+            const priority = node.score > 0.4 ? '<span class="bg-red-100 text-red-800 border border-red-200 px-2 py-0.5 rounded text-[10px] font-bold">HIGH</span>' : (node.score > 0.2 ? '<span class="bg-amber-100 text-amber-800 border border-amber-200 px-2 py-0.5 rounded text-[10px] font-bold">MEDIUM</span>' : '<span class="bg-slate-100 text-slate-600 border border-slate-200 px-2 py-0.5 rounded text-[10px]">LOW</span>');
+            const bridgeTag = node.isBridge ? '<span class="bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded text-[10px] font-bold ml-1">BOTTLENECK BRIDGE</span>' : '';
 
             const scorePct = Math.min(100, (node.score || 0) * 100).toFixed(0);
 
             document.getElementById("inspector-content").innerHTML = `
                 <div class="fade-in space-y-3.5">
-                    <div class="bg-gray-950 border border-gray-800 rounded-xl p-3 shadow-inner">
+                    <div class="bg-stone-50 border border-stone-200 rounded-xl p-3 shadow-inner">
                         <div class="flex justify-between items-start">
                             <div>
-                                <div class="text-[9px] text-gray-500 uppercase tracking-widest font-mono">Canonical Name</div>
-                                <div class="text-base font-black text-white leading-tight mt-0.5">${node.canonical_name}</div>
+                                <div class="text-[9px] text-slate-400 uppercase tracking-widest font-mono">Canonical Name</div>
+                                <div class="text-base font-black text-slate-900 leading-tight mt-0.5">${node.canonical_name}</div>
                             </div>
                             <div class="flex items-center">${priority}${bridgeTag}</div>
                         </div>
                     </div>
 
-                    <div class="bg-gray-950 border border-gray-800 rounded-xl p-3 space-y-2">
+                    <div class="bg-stone-50 border border-stone-200 rounded-xl p-3 space-y-2">
                         <div class="flex justify-between text-xs">
-                            <span class="text-gray-400 font-medium">Graph Influence Score</span>
-                            <span class="font-mono text-indigo-400 font-bold">${(node.score || 0).toFixed(3)}</span>
+                            <span class="text-slate-500 font-medium">Graph Influence Score</span>
+                            <span class="font-mono text-indigo-700 font-bold">${(node.score || 0).toFixed(3)}</span>
                         </div>
-                        <div class="w-full bg-gray-800 rounded-full h-1.5">
-                            <div class="bg-gradient-to-r from-indigo-500 to-red-500 h-1.5 rounded-full" style="width: ${scorePct}%"></div>
+                        <div class="w-full bg-stone-200 rounded-full h-1.5">
+                            <div class="bg-gradient-to-r from-indigo-600 to-red-600 h-1.5 rounded-full" style="width: ${scorePct}%"></div>
                         </div>
                     </div>
 
-                    <table class="w-full text-xs text-left text-gray-300 bg-gray-950/60 p-3 rounded-xl border border-gray-800">
+                    <table class="w-full text-xs text-left text-slate-700 bg-stone-50/60 p-3 rounded-xl border border-stone-200">
                         <tbody>
-                            <tr class="border-b border-gray-800"><th class="py-1.5 font-medium text-gray-500">Node ID</th><td class="py-1.5 font-mono text-indigo-300">${node.id}</td></tr>
-                            <tr class="border-b border-gray-800"><th class="py-1.5 font-medium text-gray-500">Entity Type</th><td class="py-1.5 font-bold">${node.entity_type}</td></tr>
-                            <tr class="border-b border-gray-800"><th class="py-1.5 font-medium text-gray-500">Degree (Connections)</th><td class="py-1.5 font-bold text-white">${node.degree || 0}</td></tr>
-                            <tr class="border-b border-gray-800"><th class="py-1.5 font-medium text-gray-500">Syndicate Sub-Cell</th><td class="py-1.5 font-mono text-amber-300 font-bold">${node.cell || 'General Operations'}</td></tr>
+                            <tr class="border-b border-stone-200"><th class="py-1.5 font-medium text-slate-400">Node ID</th><td class="py-1.5 font-mono text-indigo-700 font-bold">${node.id}</td></tr>
+                            <tr class="border-b border-stone-200"><th class="py-1.5 font-medium text-slate-400">Entity Type</th><td class="py-1.5 font-bold">${node.entity_type}</td></tr>
+                            <tr class="border-b border-stone-200"><th class="py-1.5 font-medium text-slate-400">Degree (Connections)</th><td class="py-1.5 font-bold text-slate-900">${node.degree || 0}</td></tr>
+                            <tr class="border-b border-stone-200"><th class="py-1.5 font-medium text-slate-400">Syndicate Sub-Cell</th><td class="py-1.5 font-mono text-amber-800 font-bold">${node.cell || 'General Operations'}</td></tr>
                         </tbody>
                     </table>
 
-                    <div id="influence-explain-box" class="hidden bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-gray-300 leading-relaxed shadow-inner"></div>
+                    <div id="influence-explain-box" class="hidden bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs text-slate-700 leading-relaxed shadow-inner"></div>
 
                     <div class="grid grid-cols-2 gap-2 pt-1">
-                        <button onclick="applySearchFocus('${node.id}')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 rounded-xl text-xs transition shadow-md">
+                        <button onclick="applySearchFocus('${node.id}')" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2 rounded-xl text-xs transition shadow-md">
                             Set Focus
                         </button>
-                        <button onclick="explainInfluence('${node.id}')" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-2 rounded-xl text-xs transition shadow-md">
+                        <button onclick="explainInfluence('${node.id}')" class="bg-stone-100 hover:bg-stone-200 border border-stone-300 text-slate-800 font-bold py-2 rounded-xl text-xs transition shadow-2xs">
                             Explain Ranking
                         </button>
                     </div>
@@ -1467,31 +1467,31 @@
             const isPredicted = edge.dashed || edge.label === "AI_PREDICTED";
             const title = isPredicted ? "AI Predicted Hidden Tie" : "Observed Relationship";
             const statusBadge = isPredicted ?
-                '<span class="bg-red-950 text-red-400 border border-red-800 px-2 py-0.5 rounded text-[10px] font-bold">PREDICTED</span>' :
-                '<span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded text-[10px] font-bold">OBSERVED</span>';
+                '<span class="bg-red-100 text-red-800 border border-red-200 px-2 py-0.5 rounded text-[10px] font-bold">PREDICTED</span>' :
+                '<span class="bg-emerald-100 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded text-[10px] font-bold">OBSERVED</span>';
 
             let html = `
                 <div class="fade-in space-y-3">
-                    <div class="bg-gray-950 border border-gray-800 rounded-xl p-3 shadow-inner">
+                    <div class="bg-stone-50 border border-stone-200 rounded-xl p-3 shadow-inner">
                         <div class="flex justify-between items-start">
                             <div>
-                                <div class="text-[9px] text-gray-500 uppercase tracking-widest font-mono">${title}</div>
-                                <div class="text-sm font-black text-white leading-tight mt-0.5">${edge.from} &harr; ${edge.to}</div>
+                                <div class="text-[9px] text-slate-400 uppercase tracking-widest font-mono">${title}</div>
+                                <div class="text-sm font-black text-slate-900 leading-tight mt-0.5">${edge.from} &harr; ${edge.to}</div>
                             </div>
                             ${statusBadge}
                         </div>
                     </div>
 
-                    <table class="w-full text-xs text-left text-gray-300 bg-gray-950/60 p-3 rounded-xl border border-gray-800">
+                    <table class="w-full text-xs text-left text-slate-700 bg-stone-50/60 p-3 rounded-xl border border-stone-200">
                         <tbody>
-                            <tr class="border-b border-gray-800"><th class="py-1.5 font-medium text-gray-500">Call Records (CDR)</th><td class="py-1.5 font-mono text-indigo-300">${edge.cdr_weight || 0}</td></tr>
-                            <tr class="border-b border-gray-800"><th class="py-1.5 font-medium text-gray-500">Transactions</th><td class="py-1.5 font-mono text-teal-300">${edge.txn_weight || 0}</td></tr>
-                            <tr class="border-b border-gray-800"><th class="py-1.5 font-medium text-gray-500">FIR Evidence Weight</th><td class="py-1.5 font-mono text-purple-300">${edge.fir_weight || 0}</td></tr>
+                            <tr class="border-b border-stone-200"><th class="py-1.5 font-medium text-slate-400">Call Records (CDR)</th><td class="py-1.5 font-mono text-indigo-700 font-bold">${edge.cdr_weight || 0}</td></tr>
+                            <tr class="border-b border-stone-200"><th class="py-1.5 font-medium text-slate-400">Transactions</th><td class="py-1.5 font-mono text-teal-700 font-bold">${edge.txn_weight || 0}</td></tr>
+                            <tr class="border-b border-stone-200"><th class="py-1.5 font-medium text-slate-400">FIR Evidence Weight</th><td class="py-1.5 font-mono text-purple-700 font-bold">${edge.fir_weight || 0}</td></tr>
                         </tbody>
                     </table>
 
-                    <div id="link-explain-box" class="bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-gray-300 leading-relaxed shadow-inner">
-                        <span class="text-gray-500 italic">Retrieving evidentiary justification...</span>
+                    <div id="link-explain-box" class="bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs text-slate-700 leading-relaxed shadow-inner">
+                        <span class="text-slate-400 italic">Retrieving evidentiary justification...</span>
                     </div>
                 </div>
             `;
@@ -1530,14 +1530,14 @@
             const resultsBody = document.getElementById("path-results-body");
 
             if (src === tgt) {
-                resultsBody.innerHTML = `<p class="text-amber-400 italic text-xs">Source and Target entities cannot be identical.</p>`;
+                resultsBody.innerHTML = `<p class="text-amber-700 italic text-xs">Source and Target entities cannot be identical.</p>`;
                 return;
             }
 
             const path = findShortestPathBFS(src, tgt);
 
             if (!path) {
-                resultsBody.innerHTML = `<p class="text-red-400 italic text-xs">No direct or indirect network connection found between ${src} and ${tgt}.</p>`;
+                resultsBody.innerHTML = `<p class="text-red-700 italic text-xs">No direct or indirect network connection found between ${src} and ${tgt}.</p>`;
                 return;
             }
 
@@ -1568,20 +1568,20 @@
             highlightPathOnCanvas(path);
 
             let html = `
-                <div class="bg-gray-950 border border-cyan-800/80 rounded-xl p-3 shadow-inner space-y-2">
+                <div class="bg-stone-50 border border-cyan-200 rounded-xl p-3 shadow-inner space-y-2">
                     <div class="flex justify-between items-center">
-                        <span class="text-[10px] font-mono uppercase text-cyan-400 font-bold">Shortest Evidentiary Chain</span>
-                        <span class="bg-cyan-950 text-cyan-300 border border-cyan-800 px-2 py-0.5 rounded text-[10px] font-mono font-bold">${path.length - 1} Hops</span>
+                        <span class="text-[10px] font-mono uppercase text-cyan-800 font-bold">Shortest Evidentiary Chain</span>
+                        <span class="bg-cyan-100 text-cyan-900 border border-cyan-300 px-2 py-0.5 rounded text-[10px] font-mono font-bold">${path.length - 1} Hops</span>
                     </div>
-                    <div class="grid grid-cols-3 gap-2 text-center text-xs border-t border-gray-800 pt-2 font-mono">
-                        <div><div class="text-[9px] text-gray-500 uppercase">CDR Calls</div><div class="text-indigo-400 font-bold">${totalCalls}</div></div>
-                        <div><div class="text-[9px] text-gray-500 uppercase">Hawala Txns</div><div class="text-teal-400 font-bold">₹${totalTxns.toLocaleString()}</div></div>
-                        <div><div class="text-[9px] text-gray-500 uppercase">FIR Cases</div><div class="text-purple-400 font-bold">${totalFirs}</div></div>
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs border-t border-stone-200 pt-2 font-mono">
+                        <div><div class="text-[9px] text-slate-400 uppercase">CDR Calls</div><div class="text-indigo-700 font-bold">${totalCalls}</div></div>
+                        <div><div class="text-[9px] text-slate-400 uppercase">Hawala Txns</div><div class="text-teal-700 font-bold">₹${totalTxns.toLocaleString()}</div></div>
+                        <div><div class="text-[9px] text-slate-400 uppercase">FIR Cases</div><div class="text-purple-700 font-bold">${totalFirs}</div></div>
                     </div>
                 </div>
 
                 <div class="space-y-2">
-                    <div class="text-[10px] uppercase font-mono tracking-widest text-gray-400 font-bold">Step-by-Step Connection Sequence</div>
+                    <div class="text-[10px] uppercase font-mono tracking-widest text-slate-500 font-bold">Step-by-Step Connection Sequence</div>
                     <div class="space-y-2">
             `;
 
@@ -1591,15 +1591,15 @@
                 const etype = nodeObj && nodeObj.raw ? nodeObj.raw.entity_type : "PERSON";
                 const isStart = idx === 0;
                 const isEnd = idx === path.length - 1;
-                const badgeClass = isStart ? "bg-cyan-900 text-cyan-300 border-cyan-700" : (isEnd ? "bg-red-900 text-red-300 border-red-700" : "bg-gray-800 text-gray-300 border-gray-700");
+                const badgeClass = isStart ? "bg-cyan-100 text-cyan-900 border-cyan-300" : (isEnd ? "bg-red-100 text-red-900 border-red-300" : "bg-stone-100 text-slate-700 border-stone-300");
 
                 html += `
-                    <div class="bg-gray-950 border border-gray-800 rounded-xl p-2.5 flex justify-between items-center cursor-pointer hover:border-cyan-500/50 transition" onclick="closePathModal(); applySearchFocus('${nodeId}')">
+                    <div class="bg-stone-50 border border-stone-200 rounded-xl p-2.5 flex justify-between items-center cursor-pointer hover:border-cyan-400 transition" onclick="closePathModal(); applySearchFocus('${nodeId}')">
                         <div class="flex items-center space-x-2">
-                            <span class="font-mono text-xs font-bold text-gray-500">${idx + 1}.</span>
+                            <span class="font-mono text-xs font-bold text-slate-400">${idx + 1}.</span>
                             <div>
-                                <div class="text-xs font-bold text-white">${name}</div>
-                                <div class="text-[10px] font-mono text-gray-500">${nodeId} &middot; ${etype}</div>
+                                <div class="text-xs font-bold text-slate-900">${name}</div>
+                                <div class="text-[10px] font-mono text-slate-500">${nodeId} &middot; ${etype}</div>
                             </div>
                         </div>
                         <span class="text-[9px] font-mono font-bold px-2 py-0.5 rounded border ${badgeClass}">${isStart ? 'SOURCE' : (isEnd ? 'TARGET' : 'HOP')}</span>
@@ -1610,7 +1610,7 @@
                     const edgeInfo = pathEdgeDetails[idx]?.edge || {};
                     const label = edgeInfo.label || "CALL";
                     html += `
-                        <div class="flex justify-center text-[10px] font-mono text-cyan-400 space-x-1 my-0.5">
+                        <div class="flex justify-center text-[10px] font-mono text-cyan-700 space-x-1 my-0.5 font-bold">
                             <span>↓ [${label.replace(/_/g, " ")}]</span>
                         </div>
                     `;
@@ -1671,8 +1671,8 @@
                 const inPath = pathSet.has(n.id);
                 updateNodes.push({
                     id: n.id,
-                    color: { opacity: inPath ? 1.0 : 0.1, border: inPath ? "#06b6d4" : "#111827" },
-                    font: { opacity: inPath ? 1.0 : 0.1 }
+                    color: { opacity: inPath ? 1.0 : 0.15, border: inPath ? "#0891b2" : "#0f172a" },
+                    font: { opacity: inPath ? 1.0 : 0.15 }
                 });
             });
             globalNodes.update(updateNodes);
@@ -1682,7 +1682,7 @@
                 const inPath = pathEdges.has(e.id);
                 updateEdges.push({
                     id: e.id,
-                    color: { color: inPath ? "#06b6d4" : "#334155", opacity: inPath ? 1.0 : 0.05 },
+                    color: { color: inPath ? "#0891b2" : "#cbd5e1", opacity: inPath ? 1.0 : 0.08 },
                     width: inPath ? 3.5 : 1.0
                 });
             });
@@ -1705,19 +1705,19 @@
             Object.keys(cells).forEach((cellName, idx) => {
                 const members = cells[cellName];
                 html += `
-                    <div class="bg-gray-950 border border-gray-800 hover:border-amber-600/60 rounded-xl p-3 transition shadow-sm space-y-2">
+                    <div class="bg-stone-50 border border-stone-200 hover:border-amber-400 rounded-xl p-3 transition shadow-2xs space-y-2">
                         <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold text-amber-300 font-mono flex items-center">
-                                <span class="w-2 h-2 bg-amber-400 rounded-full mr-2"></span>
+                            <span class="text-xs font-bold text-amber-900 font-mono flex items-center">
+                                <span class="w-2 h-2 bg-amber-500 rounded-full mr-2"></span>
                                 ${cellName}
                             </span>
-                            <span class="text-[10px] font-mono text-gray-400 bg-gray-900 border border-gray-800 px-2 py-0.5 rounded">${members.length} Entities</span>
+                            <span class="text-[10px] font-mono text-slate-500 bg-white border border-stone-200 px-2 py-0.5 rounded">${members.length} Entities</span>
                         </div>
-                        <div class="space-y-1 pt-1 border-t border-gray-800">
+                        <div class="space-y-1 pt-1 border-t border-stone-200">
                             ${members.map(m => `
-                                <div class="flex justify-between text-xs py-0.5 hover:bg-gray-900 px-1.5 rounded cursor-pointer transition" onclick="applySearchFocus('${m.id}')">
-                                    <span class="text-gray-200 font-bold">${m.canonical_name || m.label}</span>
-                                    <span class="text-indigo-400 font-mono text-[10px]">${m.id}</span>
+                                <div class="flex justify-between text-xs py-0.5 hover:bg-stone-200/60 px-1.5 rounded cursor-pointer transition" onclick="applySearchFocus('${m.id}')">
+                                    <span class="text-slate-800 font-bold">${m.canonical_name || m.label}</span>
+                                    <span class="text-indigo-700 font-mono text-[10px]">${m.id}</span>
                                 </div>
                             `).join("")}
                         </div>
@@ -1732,23 +1732,23 @@
             if (!box) return;
             const data = await apiCall(`/link/${encodeURIComponent(a)}/${encodeURIComponent(b)}`);
             if (!data || data.__forbidden) {
-                box.innerHTML = `<span class="text-gray-500 italic">Justification unavailable for your role.</span>`;
+                box.innerHTML = `<span class="text-slate-500 italic">Justification unavailable for your role.</span>`;
                 return;
             }
-            box.innerHTML = `<div class="text-[9px] uppercase tracking-widest text-gray-500 mb-1 font-mono">XAI Graph-RAG Justification</div>${data.explanation}`;
+            box.innerHTML = `<div class="text-[9px] uppercase tracking-widest text-slate-400 mb-1 font-mono font-bold">XAI Graph-RAG Justification</div>${data.explanation}`;
         }
 
         async function explainInfluence(nodeId) {
             const box = document.getElementById("influence-explain-box");
             if (!box) return;
             box.classList.remove("hidden");
-            box.innerHTML = `<span class="text-gray-500 italic">Retrieving Graph-RAG evidence...</span>`;
+            box.innerHTML = `<span class="text-slate-400 italic">Retrieving Graph-RAG evidence...</span>`;
             const data = await apiCall(`/influence/${encodeURIComponent(nodeId)}/explain`);
             if (!data || data.__forbidden) {
-                box.innerHTML = `<span class="text-gray-500 italic">Explanation unavailable for your role.</span>`;
+                box.innerHTML = `<span class="text-slate-500 italic">Explanation unavailable for your role.</span>`;
                 return;
             }
-            box.innerHTML = `<div class="text-[9px] uppercase tracking-widest text-gray-500 mb-1 font-mono font-bold">XAI Influence Explanation</div>${data.explanation}`;
+            box.innerHTML = `<div class="text-[9px] uppercase tracking-widest text-slate-400 mb-1 font-mono font-bold">XAI Influence Explanation</div>${data.explanation}`;
         }
 
         async function loadSidebarData() {
@@ -1757,24 +1757,24 @@
                 let html = "";
                 ranked.forEach(item => {
                     const isTop = item.rank <= 3;
-                    const rankBadge = isTop ? `bg-red-950 text-red-400 border border-red-800` : `bg-gray-800 text-gray-400 border border-gray-700`;
+                    const rankBadge = isTop ? `bg-red-100 text-red-800 border border-red-300` : `bg-stone-200 text-slate-700 border border-stone-300`;
                     const scorePct = Math.min(100, (item.score || 0) * 100).toFixed(0);
 
                     html += `
-                        <div class="bg-gray-950 border border-gray-800/90 hover:border-red-600/60 rounded-xl p-3 cursor-pointer transition shadow-sm space-y-1.5 group" onclick="applySearchFocus('${item.node}')">
+                        <div class="bg-stone-50 border border-stone-200 hover:border-red-400 rounded-xl p-3 cursor-pointer transition shadow-2xs space-y-1.5 group" onclick="applySearchFocus('${item.node}')">
                             <div class="flex justify-between items-center">
-                                <span class="text-xs font-bold text-white group-hover:text-red-400 transition flex items-center">
+                                <span class="text-xs font-bold text-slate-900 group-hover:text-red-700 transition flex items-center">
                                     <span class="${rankBadge} font-mono text-[9px] px-1.5 py-0.5 rounded mr-2 font-bold">#${item.rank}</span>
                                     ${item.name || item.node}
                                 </span>
-                                <span class="text-xs font-mono text-gray-400 font-bold">${(item.score || 0).toFixed(3)}</span>
+                                <span class="text-xs font-mono text-slate-600 font-bold">${(item.score || 0).toFixed(3)}</span>
                             </div>
-                            <div class="w-full bg-gray-800 rounded-full h-1">
-                                <div class="bg-gradient-to-r from-indigo-500 to-red-500 h-1 rounded-full" style="width: ${scorePct}%"></div>
+                            <div class="w-full bg-stone-200 rounded-full h-1">
+                                <div class="bg-gradient-to-r from-indigo-600 to-red-600 h-1 rounded-full" style="width: ${scorePct}%"></div>
                             </div>
-                            <div class="flex justify-between items-center text-[10px] text-gray-500 font-mono">
-                                <span>ID: <code class="text-indigo-300 font-bold">${item.node}</code></span>
-                                <button onclick="event.stopPropagation(); openProfileModal('${item.node}')" class="text-indigo-400 hover:underline">View Profile &rarr;</button>
+                            <div class="flex justify-between items-center text-[10px] text-slate-500 font-mono">
+                                <span>ID: <code class="text-indigo-700 font-bold">${item.node}</code></span>
+                                <button onclick="event.stopPropagation(); openProfileModal('${item.node}')" class="text-indigo-700 hover:underline font-bold">View Profile &rarr;</button>
                             </div>
                         </div>
                     `;
@@ -1787,29 +1787,29 @@
             const el = document.getElementById("firs-list");
             if (!el) return;
             const searchVal = query !== undefined ? query : (document.getElementById("fir-search-input")?.value || "");
-            el.innerHTML = `<p class="text-gray-500 italic text-xs">Loading FIR records...</p>`;
+            el.innerHTML = `<p class="text-slate-500 italic text-xs">Loading FIR records...</p>`;
 
             const data = await apiCall(`/firs?q=${encodeURIComponent(searchVal)}&limit=30`);
             if (!data || data.__forbidden) {
-                el.innerHTML = `<p class="text-gray-500 italic text-xs">FIR records unavailable for your role.</p>`;
+                el.innerHTML = `<p class="text-slate-500 italic text-xs">FIR records unavailable for your role.</p>`;
                 return;
             }
 
             if (!data.length) {
-                el.innerHTML = `<p class="text-gray-500 italic text-xs">No matching FIR records found.</p>`;
+                el.innerHTML = `<p class="text-slate-500 italic text-xs">No matching FIR records found.</p>`;
                 return;
             }
 
             el.innerHTML = data.map(fir => `
-                <div class="bg-gray-950 border border-gray-800 hover:border-purple-600/60 rounded-xl p-3 cursor-pointer transition shadow-sm space-y-1.5 group" onclick="openFIRModal('${fir.fir_id}')">
+                <div class="bg-stone-50 border border-stone-200 hover:border-purple-400 rounded-xl p-3 cursor-pointer transition shadow-2xs space-y-1.5 group" onclick="openFIRModal('${fir.fir_id}')">
                     <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold text-white group-hover:text-purple-400 transition font-mono">${fir.fir_id}</span>
-                        <span class="text-[10px] font-mono text-gray-500">${fir.date}</span>
+                        <span class="text-xs font-bold text-slate-900 group-hover:text-purple-700 transition font-mono">${fir.fir_id}</span>
+                        <span class="text-[10px] font-mono text-slate-500">${fir.date}</span>
                     </div>
-                    <p class="text-[11px] text-gray-300 line-clamp-2 leading-relaxed">${fir.narrative}</p>
-                    <div class="flex justify-between items-center text-[10px] text-gray-500 border-t border-gray-800/80 pt-1.5 mt-1 font-mono">
-                        <span>Entities Linked: <b class="text-purple-400">${fir.entities_count}</b></span>
-                        <span class="text-purple-400 group-hover:underline">View Document &rarr;</span>
+                    <p class="text-[11px] text-slate-700 line-clamp-2 leading-relaxed">${fir.narrative}</p>
+                    <div class="flex justify-between items-center text-[10px] text-slate-500 border-t border-stone-200 pt-1.5 mt-1 font-mono">
+                        <span>Entities Linked: <b class="text-purple-700">${fir.entities_count}</b></span>
+                        <span class="text-purple-700 group-hover:underline font-bold">View Document &rarr;</span>
                     </div>
                 </div>
             `).join("");
@@ -1821,11 +1821,11 @@
             modal.classList.remove("hidden");
             document.getElementById("fir-modal-title").innerText = firId;
             document.getElementById("fir-modal-date").innerText = "Date: Loading...";
-            body.innerHTML = `<p class="text-gray-500 italic text-xs">Loading FIR report narrative...</p>`;
+            body.innerHTML = `<p class="text-slate-500 italic text-xs">Loading FIR report narrative...</p>`;
 
             const data = await apiCall(`/firs/${encodeURIComponent(firId)}`);
             if (!data || data.__forbidden) {
-                body.innerHTML = `<p class="text-gray-500 italic text-xs">FIR document restricted or unavailable.</p>`;
+                body.innerHTML = `<p class="text-slate-500 italic text-xs">FIR document restricted or unavailable.</p>`;
                 return;
             }
 
@@ -1833,28 +1833,28 @@
             document.getElementById("fir-modal-date").innerText = `Registration Date: ${data.date}`;
 
             let html = `
-                <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 shadow-inner space-y-2">
-                    <div class="text-[10px] font-mono uppercase tracking-widest text-purple-400 font-bold">First Information Report Narrative</div>
-                    <p class="text-sm text-gray-200 leading-relaxed font-serif bg-gray-900/60 p-3 rounded-lg border border-gray-800/80">${data.narrative}</p>
+                <div class="bg-stone-50 border border-stone-200 rounded-xl p-4 shadow-inner space-y-2">
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-purple-700 font-bold">First Information Report Narrative</div>
+                    <p class="text-sm text-slate-800 leading-relaxed font-serif bg-white p-3 rounded-lg border border-stone-200">${data.narrative}</p>
                 </div>
             `;
 
             if (data.entities && data.entities.length > 0) {
                 html += `
                     <div class="space-y-2">
-                        <div class="text-[10px] uppercase font-mono tracking-widest text-gray-400 font-bold">Extracted & Linked Entities (${data.entities.length})</div>
+                        <div class="text-[10px] uppercase font-mono tracking-widest text-slate-500 font-bold">Extracted & Linked Entities (${data.entities.length})</div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             ${data.entities.map(e => `
-                                <div class="bg-gray-950 border border-gray-800 hover:border-indigo-500/50 rounded-xl p-2.5 flex justify-between items-center cursor-pointer transition" onclick="closeFIRModal(); openProfileOrInspector('${e.id}', '${e.type}')">
+                                <div class="bg-stone-50 border border-stone-200 hover:border-indigo-400 rounded-xl p-2.5 flex justify-between items-center cursor-pointer transition" onclick="closeFIRModal(); openProfileOrInspector('${e.id}', '${e.type}')">
                                     <div>
-                                        <div class="text-xs font-bold text-white">${e.name}</div>
-                                        <div class="text-[10px] font-mono text-gray-500">ID: ${e.id}</div>
+                                        <div class="text-xs font-bold text-slate-900">${e.name}</div>
+                                        <div class="text-[10px] font-mono text-slate-500">ID: ${e.id}</div>
                                     </div>
                                     <span class="text-[9px] font-bold font-mono px-2 py-0.5 rounded uppercase ${
-                                        e.type === 'PERSON' ? 'bg-red-950 text-red-400 border border-red-800' :
-                                        e.type === 'LOCATION' ? 'bg-indigo-950 text-indigo-400 border border-indigo-800' :
-                                        e.type === 'VEHICLE' ? 'bg-amber-950 text-amber-400 border border-amber-800' :
-                                        'bg-emerald-950 text-emerald-400 border border-emerald-800'
+                                        e.type === 'PERSON' ? 'bg-red-100 text-red-800 border border-red-200' :
+                                        e.type === 'LOCATION' ? 'bg-indigo-100 text-indigo-800 border border-indigo-200' :
+                                        e.type === 'VEHICLE' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
+                                        'bg-emerald-100 text-emerald-800 border border-emerald-200'
                                     }">${e.type}</span>
                                 </div>
                             `).join("")}
@@ -1882,11 +1882,11 @@
             document.getElementById("profile-modal-name").innerText = nodeId;
             document.getElementById("profile-modal-type").innerText = "Loading...";
             document.getElementById("profile-modal-alias").innerText = "";
-            body.innerHTML = `<p class="text-gray-500 italic text-xs">Loading profile data...</p>`;
+            body.innerHTML = `<p class="text-slate-500 italic text-xs">Loading profile data...</p>`;
 
             const data = await apiCall(`/people/${encodeURIComponent(nodeId)}`);
             if (!data || data.__forbidden) {
-                body.innerHTML = `<p class="text-gray-500 italic text-xs">Profile unavailable for your role.</p>`;
+                body.innerHTML = `<p class="text-slate-500 italic text-xs">Profile unavailable for your role.</p>`;
                 return;
             }
 
@@ -1894,20 +1894,20 @@
             document.getElementById("profile-modal-name").innerText = data.name;
             document.getElementById("profile-modal-alias").innerText = data.alias ? `Also known as "${data.alias}"` : "";
 
-            const priority = data.influence_score > 0.4 ? '<span class="bg-red-950 text-red-400 border border-red-800 px-2 py-0.5 rounded text-[10px] font-bold">HIGH</span>' : (data.influence_score > 0.2 ? '<span class="bg-amber-950 text-amber-400 border border-amber-800 px-2 py-0.5 rounded text-[10px] font-bold">MEDIUM</span>' : '<span class="bg-gray-800 text-gray-400 border border-gray-700 px-2 py-0.5 rounded text-[10px]">LOW</span>');
+            const priority = data.influence_score > 0.4 ? '<span class="bg-red-100 text-red-800 border border-red-200 px-2 py-0.5 rounded text-[10px] font-bold">HIGH</span>' : (data.influence_score > 0.2 ? '<span class="bg-amber-100 text-amber-800 border border-amber-200 px-2 py-0.5 rounded text-[10px] font-bold">MEDIUM</span>' : '<span class="bg-slate-100 text-slate-600 border border-slate-200 px-2 py-0.5 rounded text-[10px]">LOW</span>');
 
             let html = `
-                <table class="w-full text-xs text-left text-gray-300 bg-gray-950/60 p-3 rounded-xl border border-gray-800">
+                <table class="w-full text-xs text-left text-slate-700 bg-stone-50/60 p-3 rounded-xl border border-stone-200">
                     <tbody>
-                        <tr class="border-b border-gray-800"><th class="py-1.5 font-medium text-gray-500 w-1/3">Entity ID</th><td class="py-1.5 font-mono text-indigo-300">${data.person_id}</td></tr>
-                        <tr class="border-b border-gray-800"><th class="py-1.5 font-medium text-gray-500">Priority Level</th><td class="py-1.5">${priority}</td></tr>
-                        <tr class="border-b border-gray-800"><th class="py-1.5 font-medium text-gray-500">Influence Score</th><td class="py-1.5 font-mono font-bold text-white">${data.influence_score.toFixed(3)}</td></tr>
-                        <tr class="border-b border-gray-800"><th class="py-1.5 font-medium text-gray-500">Degree Connections</th><td class="py-1.5 font-bold text-white">${data.degree}</td></tr>
+                        <tr class="border-b border-stone-200"><th class="py-1.5 font-medium text-slate-400 w-1/3">Entity ID</th><td class="py-1.5 font-mono text-indigo-700 font-bold">${data.person_id}</td></tr>
+                        <tr class="border-b border-stone-200"><th class="py-1.5 font-medium text-slate-400">Priority Level</th><td class="py-1.5">${priority}</td></tr>
+                        <tr class="border-b border-stone-200"><th class="py-1.5 font-medium text-slate-400">Influence Score</th><td class="py-1.5 font-mono font-bold text-slate-900">${data.influence_score.toFixed(3)}</td></tr>
+                        <tr class="border-b border-stone-200"><th class="py-1.5 font-medium text-slate-400">Degree Connections</th><td class="py-1.5 font-bold text-slate-900">${data.degree}</td></tr>
                     </tbody>
                 </table>
 
-                <div id="profile-explain-box" class="hidden bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-gray-300 leading-relaxed shadow-inner"></div>
-                <button onclick="explainInfluenceInProfile('${data.person_id}')" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-2 rounded-xl text-xs transition shadow-md">
+                <div id="profile-explain-box" class="hidden bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs text-slate-700 leading-relaxed shadow-inner"></div>
+                <button onclick="explainInfluenceInProfile('${data.person_id}')" class="w-full bg-stone-100 hover:bg-stone-200 border border-stone-300 text-slate-800 font-bold py-2 rounded-xl text-xs transition shadow-2xs">
                     Explain Influence Ranking
                 </button>
             `;
@@ -1915,15 +1915,15 @@
             if (data.merged_mentions && data.merged_mentions.length > 0) {
                 html += `
                     <div class="space-y-1.5">
-                        <div class="text-[10px] uppercase font-mono tracking-widest text-amber-400 font-bold flex items-center">
-                            <span class="w-1.5 h-1.5 bg-amber-400 rounded-full mr-1.5"></span>
+                        <div class="text-[10px] uppercase font-mono tracking-widest text-amber-800 font-bold flex items-center">
+                            <span class="w-1.5 h-1.5 bg-amber-500 rounded-full mr-1.5"></span>
                             ${data.merged_mentions.length} Mention${data.merged_mentions.length === 1 ? '' : 's'} Merged Into Entity
                         </div>
                         <div class="space-y-1.5">
                             ${data.merged_mentions.map(m => `
-                                <div class="bg-amber-950/20 border border-amber-900/40 rounded-xl p-2.5 flex justify-between items-center text-xs">
-                                    <span class="text-gray-200">"${m.surface_text}" <span class="text-gray-500 font-mono">&middot; ${m.doc_id}</span></span>
-                                    <span class="text-amber-400 font-mono font-bold">${(m.confidence * 100).toFixed(0)}%</span>
+                                <div class="bg-amber-50/60 border border-amber-200 rounded-xl p-2.5 flex justify-between items-center text-xs">
+                                    <span class="text-slate-800">"${m.surface_text}" <span class="text-slate-400 font-mono">&middot; ${m.doc_id}</span></span>
+                                    <span class="text-amber-800 font-mono font-bold">${(m.confidence * 100).toFixed(0)}%</span>
                                 </div>
                             `).join("")}
                         </div>
@@ -1934,19 +1934,19 @@
             if (data.firs && data.firs.length > 0) {
                 html += `
                     <div class="space-y-2">
-                        <div class="text-[10px] uppercase font-mono tracking-widest text-purple-400 font-bold flex items-center">
-                            <span class="w-1.5 h-1.5 bg-purple-400 rounded-full mr-1.5 pulse-dot"></span>
+                        <div class="text-[10px] uppercase font-mono tracking-widest text-purple-800 font-bold flex items-center">
+                            <span class="w-1.5 h-1.5 bg-purple-600 rounded-full mr-1.5 pulse-dot"></span>
                             Associated FIR Case Narratives (${data.firs.length})
                         </div>
                         <div class="space-y-2">
                             ${data.firs.map(f => `
-                                <div class="bg-gray-950 border border-gray-800/90 rounded-xl p-3 hover:border-purple-600/60 transition cursor-pointer shadow-sm" onclick="closeProfileModal(); openFIRModal('${f.fir_id}')">
+                                <div class="bg-stone-50 border border-stone-200 rounded-xl p-3 hover:border-purple-400 transition cursor-pointer shadow-2xs" onclick="closeProfileModal(); openFIRModal('${f.fir_id}')">
                                     <div class="flex justify-between items-center mb-1">
-                                        <span class="text-xs font-bold text-purple-300 font-mono">${f.fir_id}</span>
-                                        <span class="text-[10px] font-mono text-gray-500">${f.date}</span>
+                                        <span class="text-xs font-bold text-purple-800 font-mono">${f.fir_id}</span>
+                                        <span class="text-[10px] font-mono text-slate-500">${f.date}</span>
                                     </div>
-                                    <p class="text-[11px] text-gray-300 leading-relaxed italic border-l-2 border-purple-600/60 pl-2 py-0.5">${f.narrative}</p>
-                                    <div class="text-[9px] text-purple-400 hover:underline mt-1.5 text-right font-mono">View Full FIR Report &rarr;</div>
+                                    <p class="text-[11px] text-slate-700 leading-relaxed italic border-l-2 border-purple-500 pl-2 py-0.5">${f.narrative}</p>
+                                    <div class="text-[9px] text-purple-700 hover:underline mt-1.5 text-right font-mono font-bold">View Full FIR Report &rarr;</div>
                                 </div>
                             `).join("")}
                         </div>
@@ -1957,12 +1957,12 @@
             if (data.connections && data.connections.length > 0) {
                 html += `
                     <div class="space-y-2">
-                        <div class="text-[10px] uppercase font-mono tracking-widest text-gray-400 font-bold">Direct Connections (${data.connections.length})</div>
+                        <div class="text-[10px] uppercase font-mono tracking-widest text-slate-500 font-bold">Direct Connections (${data.connections.length})</div>
                         <div class="space-y-1.5 max-h-48 overflow-y-auto scrollbar-thin pr-1">
                             ${data.connections.map(c => `
-                                <div class="flex justify-between items-center bg-gray-950 border border-gray-800/80 rounded-xl p-2 text-xs cursor-pointer hover:border-indigo-500/50 transition" onclick="openProfileModal('${c.node_id}')">
-                                    <span class="text-gray-200 font-bold">${c.name} <span class="text-gray-500 font-normal">(${c.entity_type})</span></span>
-                                    <span class="text-[9px] bg-gray-800 text-indigo-300 px-2 py-0.5 rounded font-mono uppercase font-bold">${c.edge_type}</span>
+                                <div class="flex justify-between items-center bg-stone-50 border border-stone-200 rounded-xl p-2 text-xs cursor-pointer hover:border-indigo-400 transition" onclick="openProfileModal('${c.node_id}')">
+                                    <span class="text-slate-800 font-bold">${c.name} <span class="text-slate-400 font-normal">(${c.entity_type})</span></span>
+                                    <span class="text-[9px] bg-stone-200 text-indigo-900 px-2 py-0.5 rounded font-mono uppercase font-bold">${c.edge_type}</span>
                                 </div>
                             `).join("")}
                         </div>
@@ -1977,13 +1977,13 @@
             const box = document.getElementById("profile-explain-box");
             if (!box) return;
             box.classList.remove("hidden");
-            box.innerHTML = `<span class="text-gray-500 italic">Retrieving evidence...</span>`;
+            box.innerHTML = `<span class="text-slate-400 italic">Retrieving evidence...</span>`;
             const data = await apiCall(`/influence/${encodeURIComponent(nodeId)}/explain`);
             if (!data || data.__forbidden) {
-                box.innerHTML = `<span class="text-gray-500 italic font-sans">Explanation unavailable for your role.</span>`;
+                box.innerHTML = `<span class="text-slate-500 italic font-sans">Explanation unavailable for your role.</span>`;
                 return;
             }
-            box.innerHTML = `<div class="text-[9px] uppercase tracking-widest text-gray-500 mb-1 font-mono font-bold">XAI Influence Explanation</div>${data.explanation}`;
+            box.innerHTML = `<div class="text-[9px] uppercase tracking-widest text-slate-400 mb-1 font-mono font-bold">XAI Influence Explanation</div>${data.explanation}`;
         }
 
         function closeProfileModal() {
@@ -2003,15 +2003,15 @@
             const selectedArea = areaEl ? areaEl.value : "all";
             const selectedSort = sortEl ? sortEl.value : "probability";
 
-            body.innerHTML = `<p class="text-gray-500 italic text-xs">Computing AI link probabilities...</p>`;
+            body.innerHTML = `<p class="text-slate-500 italic text-xs">Computing AI link probabilities...</p>`;
 
             const data = await apiCall(`/candidates?top_n=20&city=${encodeURIComponent(selectedCity)}&area=${encodeURIComponent(selectedArea)}&sort_by=${encodeURIComponent(selectedSort)}`);
             if (!data || data.__forbidden) {
-                body.innerHTML = `<p class="text-gray-500 italic text-xs">Prediction model execution unavailable for your role.</p>`;
+                body.innerHTML = `<p class="text-slate-500 italic text-xs">Prediction model execution unavailable for your role.</p>`;
                 return;
             }
             if (!data.length) {
-                body.innerHTML = `<p class="text-gray-500 italic text-xs">No candidate hidden links found for current spatial filters.</p>`;
+                body.innerHTML = `<p class="text-slate-500 italic text-xs">No candidate hidden links found for current spatial filters.</p>`;
                 return;
             }
 
@@ -2022,17 +2022,17 @@
                 const barColor = c.probability > 0.7 ? "bg-red-600" : (c.probability > 0.4 ? "bg-amber-600" : "bg-indigo-600");
 
                 return `
-                    <div class="bg-gray-950 border border-gray-800 hover:border-red-600/60 rounded-xl p-3 cursor-pointer transition shadow-sm space-y-2 group" onclick="closeAIRunModal(); applySearchFocus('${c.node_a}');">
+                    <div class="bg-stone-50 border border-stone-200 hover:border-red-400 rounded-xl p-3 cursor-pointer transition shadow-2xs space-y-2 group" onclick="closeAIRunModal(); applySearchFocus('${c.node_a}');">
                         <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold text-white group-hover:text-red-400 transition">${i + 1}. ${nameA} &harr; ${nameB}</span>
-                            <span class="text-xs font-mono font-bold text-red-400">${pct}%</span>
+                            <span class="text-xs font-bold text-slate-900 group-hover:text-red-700 transition">${i + 1}. ${nameA} &harr; ${nameB}</span>
+                            <span class="text-xs font-mono font-bold text-red-700">${pct}%</span>
                         </div>
-                        <div class="w-full bg-gray-800 rounded-full h-1.5">
+                        <div class="w-full bg-stone-200 rounded-full h-1.5">
                             <div class="${barColor} h-1.5 rounded-full" style="width: ${pct}%"></div>
                         </div>
-                        <div class="flex justify-between items-center text-[10px] text-gray-500 font-mono">
-                            <span class="text-indigo-300 font-bold">📍 ${c.city} &middot; 🏢 ${c.area}</span>
-                            <span class="text-gray-400 group-hover:underline">Focus Graph &rarr;</span>
+                        <div class="flex justify-between items-center text-[10px] text-slate-500 font-mono">
+                            <span class="text-indigo-800 font-bold">📍 ${c.city} &middot; 🏢 ${c.area}</span>
+                            <span class="text-slate-500 group-hover:underline font-bold">Focus Graph &rarr;</span>
                         </div>
                     </div>
                 `;
@@ -2045,10 +2045,10 @@
 
         async function loadMerges(silent) {
             const el = document.getElementById("merges-list");
-            if (!silent) el.innerHTML = `<p class="text-gray-500 italic text-xs">Loading merges...</p>`;
+            if (!silent) el.innerHTML = `<p class="text-slate-500 italic text-xs">Loading merges...</p>`;
             const data = await apiCall("/resolution/merges");
             if (!data || data.__forbidden) {
-                if (!silent) el.innerHTML = `<p class="text-gray-500 italic text-xs">Not available for your role.</p>`;
+                if (!silent) el.innerHTML = `<p class="text-slate-500 italic text-xs">Not available for your role.</p>`;
                 return;
             }
             const merges = data.merges || [];
@@ -2062,21 +2062,21 @@
             }
 
             if (!merges.length) {
-                el.innerHTML = `<p class="text-gray-500 italic text-xs">No entity-resolution merges recorded.</p>`;
+                el.innerHTML = `<p class="text-slate-500 italic text-xs">No entity-resolution merges recorded.</p>`;
                 return;
             }
 
             el.innerHTML = merges.map(m => `
-                <div class="bg-gray-950 border border-gray-800 hover:border-gray-700 rounded-xl p-2.5 cursor-pointer transition shadow-sm" onclick="openProfileModal('${m.canonical_id}')">
+                <div class="bg-stone-50 border border-stone-200 hover:border-stone-400 rounded-xl p-2.5 cursor-pointer transition shadow-2xs" onclick="openProfileModal('${m.canonical_id}')">
                     <div class="flex justify-between items-center mb-1">
-                        <span class="font-bold text-white text-xs">${m.canonical_name}</span>
-                        <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded font-mono">${m.entity_type}</span>
+                        <span class="font-bold text-slate-900 text-xs">${m.canonical_name}</span>
+                        <span class="text-[9px] bg-stone-200 text-slate-700 px-1.5 py-0.5 rounded font-mono font-bold">${m.entity_type}</span>
                     </div>
-                    <div class="text-[10px] text-gray-500 mb-1 font-mono">${m.mention_count} mention${m.mention_count === 1 ? '' : 's'} merged &middot; ${m.canonical_id}</div>
+                    <div class="text-[10px] text-slate-500 mb-1 font-mono">${m.mention_count} mention${m.mention_count === 1 ? '' : 's'} merged &middot; ${m.canonical_id}</div>
                     ${m.mentions.map(mention => `
-                        <div class="text-[10px] text-gray-400 flex justify-between border-t border-gray-800/70 pt-1 mt-1">
-                            <span>"${mention.surface_text}" <span class="text-gray-600 font-mono">(${mention.doc_id})</span></span>
-                            <span class="text-gray-500 font-mono">${(mention.confidence * 100).toFixed(0)}%</span>
+                        <div class="text-[10px] text-slate-600 flex justify-between border-t border-stone-200 pt-1 mt-1">
+                            <span>"${mention.surface_text}" <span class="text-slate-400 font-mono">(${mention.doc_id})</span></span>
+                            <span class="text-slate-500 font-mono font-bold">${(mention.confidence * 100).toFixed(0)}%</span>
                         </div>
                     `).join("")}
                 </div>
@@ -2085,26 +2085,26 @@
 
         async function loadAuditLog() {
             const el = document.getElementById("audit-list");
-            el.innerHTML = `<p class="text-gray-500 italic text-xs font-sans">Loading audit trail...</p>`;
+            el.innerHTML = `<p class="text-slate-500 italic text-xs font-sans">Loading audit trail...</p>`;
             const data = await apiCall("/audit-logs");
             if (!data || data.__forbidden) {
-                el.innerHTML = `<p class="text-gray-500 italic text-xs font-sans">Not available for your role.</p>`;
+                el.innerHTML = `<p class="text-slate-500 italic text-xs font-sans">Not available for your role.</p>`;
                 return;
             }
             const logs = (data.logs || []).slice().reverse();
             if (!logs.length) {
-                el.innerHTML = `<p class="text-gray-500 italic text-xs font-sans">No audit events recorded.</p>`;
+                el.innerHTML = `<p class="text-slate-500 italic text-xs font-sans">No audit events recorded.</p>`;
                 return;
             }
             el.innerHTML = logs.map(log => {
-                const resultColor = log.result === "allowed" ? "text-emerald-400" : "text-red-400";
+                const resultColor = log.result === "allowed" ? "text-emerald-700" : "text-red-700";
                 return `
-                    <div class="border-b border-gray-800/80 pb-1.5 mb-1.5">
-                        <div class="flex justify-between text-[9px] text-gray-500">
+                    <div class="border-b border-stone-200 pb-1.5 mb-1.5">
+                        <div class="flex justify-between text-[9px] text-slate-400">
                             <span>${log.timestamp}</span>
                             <span class="${resultColor} font-bold uppercase">${log.result}</span>
                         </div>
-                        <div class="text-gray-300 text-[10px] mt-0.5">${log.user_role} (${log.user_id}) &rarr; <span class="text-indigo-300 font-bold">${log.action}</span></div>
+                        <div class="text-slate-700 text-[10px] mt-0.5">${log.user_role} (${log.user_id}) &rarr; <span class="text-indigo-800 font-bold">${log.action}</span></div>
                     </div>
                 `;
             }).join("");
@@ -2112,10 +2112,10 @@
 
         async function loadEvaluation() {
             const el = document.getElementById("eval-content");
-            el.innerHTML = `<p class="text-gray-500 italic text-xs">Scoring against ground-truth answer key...</p>`;
+            el.innerHTML = `<p class="text-slate-500 italic text-xs">Scoring against ground-truth answer key...</p>`;
             const data = await apiCall("/evaluation/summary");
             if (!data || data.__forbidden) {
-                el.innerHTML = `<p class="text-gray-500 italic text-xs">Not available for your role.</p>`;
+                el.innerHTML = `<p class="text-slate-500 italic text-xs">Not available for your role.</p>`;
                 return;
             }
 
@@ -2126,9 +2126,9 @@
             const kiPct = ki.recall !== null && ki.recall !== undefined ? (ki.recall * 100).toFixed(0) + "%" : "N/A";
 
             let html = `
-                <div class="bg-gray-950 border border-gray-800 rounded-xl p-3 shadow-inner">
-                    <div class="text-[9px] uppercase tracking-widest text-gray-500 font-mono mb-1">Hidden-Link Recall Score</div>
-                    <div class="text-2xl font-black text-white font-mono">${hlPct} <span class="text-xs text-gray-500 font-normal">(${hl.recovered ? hl.recovered.length : 0}/${hl.total_planted || 0} planted recovered)</span></div>
+                <div class="bg-stone-50 border border-stone-200 rounded-xl p-3 shadow-inner">
+                    <div class="text-[9px] uppercase tracking-widest text-slate-400 font-mono mb-1 font-bold">Hidden-Link Recall Score</div>
+                    <div class="text-2xl font-black text-slate-900 font-mono">${hlPct} <span class="text-xs text-slate-500 font-normal">(${hl.recovered ? hl.recovered.length : 0}/${hl.total_planted || 0} planted recovered)</span></div>
                 </div>
                 <div class="space-y-1">
             `;
@@ -2140,19 +2140,19 @@
                     const nameB = (globalNodes && globalNodes.get(pairArr[1]) && globalNodes.get(pairArr[1]).raw.canonical_name) || pairArr[1];
                     const probPct = m.probability !== undefined ? (m.probability * 100).toFixed(1) + "%" : "N/A";
 
-                    html += `<div class="flex justify-between items-center text-[10px] bg-gray-950 border border-gray-800 rounded-lg px-2.5 py-1.5 font-mono cursor-pointer hover:border-red-500/50 transition" onclick="applySearchFocus('${pairArr[0]}')">
-                        <span class="text-gray-200 font-bold">${nameA} &harr; ${nameB}</span>
-                        <span class="text-red-400 font-bold">${probPct}</span>
+                    html += `<div class="flex justify-between items-center text-[10px] bg-stone-50 border border-stone-200 rounded-lg px-2.5 py-1.5 font-mono cursor-pointer hover:border-red-400 transition" onclick="applySearchFocus('${pairArr[0]}')">
+                        <span class="text-slate-800 font-bold">${nameA} &harr; ${nameB}</span>
+                        <span class="text-red-700 font-bold">${probPct}</span>
                     </div>`;
                 });
             } else {
-                html += `<p class="text-gray-500 italic text-[10px]">No hidden links recovered.</p>`;
+                html += `<p class="text-slate-500 italic text-[10px]">No hidden links recovered.</p>`;
             }
 
             html += `</div>
-                <div class="bg-gray-950 border border-gray-800 rounded-xl p-3 mt-3 shadow-inner">
-                    <div class="text-[9px] uppercase tracking-widest text-gray-500 font-mono mb-1">Key-Influencer Recall Score</div>
-                    <div class="text-2xl font-black text-white font-mono">${kiPct} <span class="text-xs text-gray-500 font-normal">(${ki.recovered ? ki.recovered.length : 0}/${ki.total_planted || 0} top leaders identified)</span></div>
+                <div class="bg-stone-50 border border-stone-200 rounded-xl p-3 mt-3 shadow-inner">
+                    <div class="text-[9px] uppercase tracking-widest text-slate-400 font-mono mb-1 font-bold">Key-Influencer Recall Score</div>
+                    <div class="text-2xl font-black text-slate-900 font-mono">${kiPct} <span class="text-xs text-slate-500 font-normal">(${ki.recovered ? ki.recovered.length : 0}/${ki.total_planted || 0} top leaders identified)</span></div>
                 </div>
                 <div class="space-y-1">
             `;
@@ -2163,13 +2163,13 @@
                     const name = (globalNodes && globalNodes.get(pid) && globalNodes.get(pid).raw.canonical_name) || pid;
                     const rankStr = m.rank !== undefined ? `#${m.rank}` : "Rank N/A";
 
-                    html += `<div class="flex justify-between items-center text-[10px] bg-gray-950 border border-gray-800 rounded-lg px-2.5 py-1.5 font-mono cursor-pointer hover:border-indigo-500/50 transition" onclick="applySearchFocus('${pid}')">
-                        <span class="text-gray-200 font-bold">${name} <span class="text-gray-500">(${pid})</span></span>
-                        <span class="text-emerald-400 font-bold">${rankStr}</span>
+                    html += `<div class="flex justify-between items-center text-[10px] bg-stone-50 border border-stone-200 rounded-lg px-2.5 py-1.5 font-mono cursor-pointer hover:border-indigo-400 transition" onclick="applySearchFocus('${pid}')">
+                        <span class="text-slate-800 font-bold">${name} <span class="text-slate-400">(${pid})</span></span>
+                        <span class="text-emerald-700 font-bold">${rankStr}</span>
                     </div>`;
                 });
             } else {
-                html += `<p class="text-gray-500 italic text-[10px]">No key influencers recovered.</p>`;
+                html += `<p class="text-slate-500 italic text-[10px]">No key influencers recovered.</p>`;
             }
 
             html += `</div>`;

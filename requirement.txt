@@ -1,12 +1,12 @@
-pandas
-numpy
-scikit-learn
-sentence-transformers
-networkx
-matplotlib
-fastapi
-uvicorn
-pyjwt
-faker
-anthropic
-python-multipart
+
+fastapi>=0.141.1
+uvicorn>=0.52.4
+pydantic>=2.13.5
+networkx>=3.6.1
+numpy>=2.5.2
+scikit-learn>=1.9.0
+spacy>=3.8.16
+faker>=40.38.0
+ 
+# Required spaCy language model (not installable via pip alone):
+#   python -m spacy download en_core_web_sm
