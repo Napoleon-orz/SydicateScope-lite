@@ -1,7 +1,7 @@
 # SyndicateScope
 
 **AI-assisted criminal network inference — hackathon prototype**
-*NCRB Women Safety Division · SIH26189*
+SIH26189*
 
 SyndicateScope fuses call records, financial transactions, and free-text FIR
 narratives into a single investigation graph, then uses a trained link-prediction
