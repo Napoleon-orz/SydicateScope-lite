@@ -17,59 +17,86 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-try:
-    from ingest import load_json, load_csv
-    from ner.ner import extract_all_entities
-    from resolution.resolver import resolve_entities
-    from graph.graph import (
-        build_investigation_graph,
-        add_fir_co_mention_edges,
-        add_vehicle_edges,
-        add_organization_edges,
-        add_location_edges
-    )
-    from prediction.link_prediction import (
-        train_link_prediction_model,
-        rank_candidate_links,
-        predict_link_probability,
-        extract_features
-    )
-    from analytics.influence import rank_influential_nodes
-    from rag.graph_rag import explain_link, explain_influence
-    from security import require_permission, get_audit_logs
-except ImportError as e:
-    print(f"[Warning] Local pipeline module import warning: {e}. Ensuring fallback path handlers are active.")
+from ingest import load_json, load_csv
+from ner.ner import extract_all_entities
+from resolution.resolver import resolve_entities
+from graph.graph import (
+    build_investigation_graph,
+    add_fir_co_mention_edges,
+    add_vehicle_edges,
+    add_organization_edges,
+    add_location_edges
+)
+from prediction.link_prediction import (
+    train_link_prediction_model,
+    rank_candidate_links,
+    predict_link_probability,
+    extract_features
+)
+from analytics.influence import rank_influential_nodes
+from rag.graph_rag import explain_link, explain_influence
+from security import require_permission, get_audit_logs
+# NOTE: these imports used to be wrapped in a bare `try/except ImportError`
+# that only printed a warning and kept going. That's why the backend looked
+# "not connected" to the frontend: if ANY of these modules failed to import
+# (most commonly ner.py's `import spacy` + `spacy.load('en_core_web_sm')`,
+# since spacy isn't in requirement.txt and the model is a separate download),
+# every name below silently ended up undefined. The app then crashed with a
+# NameError the moment a route decorator referenced `require_permission`,
+# so uvicorn never actually served anything and the frontend's fetch() calls
+# always failed and fell back to its mock/demo data. Letting the ImportError
+# raise here means a missing dependency now fails loudly and immediately,
+# with a real traceback pointing at the actual missing package.
+
 
 def locate_dataset_file(filename: str) -> Path:
-    """Finds target dataset file across root directory or ./data/ folder."""
-    candidates = [
-        Path(filename),
-        Path("data") / filename,
-        Path(__file__).parent / filename,
-        Path(__file__).parent / "data" / filename
+    """Finds target dataset file across root directory or ./data/ folder, supporting versioned filenames."""
+    p_path = Path(filename)
+    base_name = p_path.stem
+    ext = p_path.suffix
+
+    search_dirs = [
+        Path("."),
+        Path("data"),
+        Path(__file__).parent,
+        Path(__file__).parent / "data"
     ]
-    for p in candidates:
-        if p.exists():
-            return p
+
+    for d in search_dirs:
+        exact = d / filename
+        if exact.exists():
+            return exact
+
+    for d in search_dirs:
+        if d.exists():
+            for f in d.iterdir():
+                if f.name.startswith(base_name) and f.name.endswith(ext):
+                    return f
+
     return Path("data") / filename
 
+
 def load_csv_robust(filename: str) -> List[Dict[str, Any]]:
-    """Loads CSV file safely regardless of directory location."""
+    """Loads CSV file safely regardless of directory location or versioned name."""
     filepath = locate_dataset_file(filename)
     if not filepath.exists():
         print(f"[Warning] CSV file '{filename}' not found at {filepath}")
         return []
+    print(f"-> API loaded dataset: {filepath}")
     with open(filepath, mode="r", encoding="utf-8") as f:
         return list(csv.DictReader(f))
 
+
 def load_json_robust(filename: str) -> Any:
-    """Loads JSON file safely regardless of directory location."""
+    """Loads JSON file safely regardless of directory location or versioned name."""
     filepath = locate_dataset_file(filename)
     if not filepath.exists():
         print(f"[Warning] JSON file '{filename}' not found at {filepath}")
         return []
+    print(f"-> API loaded dataset: {filepath}")
     with open(filepath, mode="r", encoding="utf-8") as f:
         return json.load(f)
+
 
 class PipelineState:
     """Global state container for initialized graph and trained ML models."""
@@ -83,6 +110,7 @@ class PipelineState:
         self.cached_top_candidates: List[Any] = []
 
 state = PipelineState()
+
 
 def build_pipeline():
     """Ingests real datasets, constructs multi-layer graph, and trains link predictor."""
@@ -123,19 +151,19 @@ def build_pipeline():
     state.people = people
     state.canonical_database = canonical_database
 
-    # Precompute candidate links to make /graph/data sub-millisecond fast
     try:
-        state.cached_top_candidates = rank_candidate_links(model, scaler, graph, top_n=50)
+        state.cached_top_candidates = rank_candidate_links(model, scaler, graph, top_n=100)
     except Exception as err:
         print(f"[Warning] Could not pre-cache candidate links: {err}")
         state.cached_top_candidates = []
 
     return graph, model, scaler
 
+
 app = FastAPI(
     title="SyndicateScope Backend API",
     description="Restricted Law Enforcement Network - Graph-RAG, RBAC, Link Prediction & FIR Reporting API",
-    version="0.6.0",
+    version="0.7.0",
 )
 
 app.add_middleware(
@@ -146,6 +174,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.on_event("startup")
 def startup_event():
     """Initializes graph pipeline on server startup."""
@@ -154,6 +183,7 @@ def startup_event():
         print(f"[SUCCESS] SyndicateScope Pipeline Online! Nodes: {state.graph.number_of_nodes()}, Edges: {state.graph.number_of_edges()}, FIRs: {len(state.firs)}")
     except Exception as err:
         print(f"[ERROR] Pipeline startup failed: {err}")
+
 
 class ConnectionInfo(BaseModel):
     node_id: str
@@ -164,15 +194,18 @@ class ConnectionInfo(BaseModel):
     txn_weight: float = 0.0
     fir_weight: float = 0.0
 
+
 class MergedMention(BaseModel):
     surface_text: str
     doc_id: str
     confidence: float
 
+
 class PersonFIR(BaseModel):
     fir_id: str
     date: str
     narrative: str
+
 
 class PersonSummary(BaseModel):
     person_id: str
@@ -185,10 +218,15 @@ class PersonSummary(BaseModel):
     merged_mentions: List[MergedMention] = []
     firs: List[PersonFIR] = []
 
+
 class LinkCandidate(BaseModel):
     node_a: str
     node_b: str
     probability: float
+    city: str = "Bengaluru"
+    area: str = "General"
+    locations: List[str] = []
+
 
 class InfluentialNode(BaseModel):
     rank: int
@@ -196,10 +234,12 @@ class InfluentialNode(BaseModel):
     name: str
     score: float
 
+
 class FIREntity(BaseModel):
     id: str
     name: str
     type: str
+
 
 class FIRSummary(BaseModel):
     fir_id: str
@@ -207,6 +247,7 @@ class FIRSummary(BaseModel):
     narrative: str
     entities_count: int = 0
     entities: List[FIREntity] = []
+
 
 def find_firs_for_person(person_id: str) -> List[dict]:
     """Retrieves all FIR case narratives associated with a person ID."""
@@ -248,6 +289,69 @@ def find_firs_for_person(person_id: str) -> List[dict]:
     matched_firs.sort(key=lambda x: x["date"], reverse=True)
     return matched_firs
 
+
+def extract_area_name(text: str) -> str:
+    """Helper to detect standard district/area names from entity or location labels."""
+    if not text:
+        return "Central Bengaluru"
+    text_lower = text.lower()
+
+    # Mumbai Areas
+    if "bandra" in text_lower: return "Bandra"
+    if "andheri" in text_lower: return "Andheri"
+    if "colaba" in text_lower: return "Colaba"
+    if "powai" in text_lower: return "Powai"
+    if "juhu" in text_lower: return "Juhu"
+    if "dadar" in text_lower: return "Dadar"
+    if "worli" in text_lower: return "Worli"
+    if "kurla" in text_lower: return "Kurla"
+    if "thane" in text_lower: return "Thane"
+    if "navi mumbai" in text_lower: return "Navi Mumbai"
+
+    # Bengaluru Areas
+    if "indiranagar" in text_lower: return "Indiranagar"
+    if "whitefield" in text_lower: return "Whitefield"
+    if "electronic city" in text_lower: return "Electronic City"
+    if "hebbal" in text_lower: return "Hebbal"
+    if "silk board" in text_lower: return "Silk Board"
+    if "kr market" in text_lower: return "KR Market"
+    if "yeshwantpur" in text_lower: return "Yeshwantpur"
+    if "bannerghatta" in text_lower: return "Bannerghatta Road"
+    if "malleshwaram" in text_lower: return "Malleshwaram"
+    if "majestic" in text_lower: return "Majestic"
+    if "mumbai" in text_lower: return "Central Mumbai"
+    return "Central Bengaluru"
+
+
+def get_candidate_location_info(graph, node_a: str, node_b: str):
+    """Derives City and Area tags for candidate pairs by looking up connected location hubs."""
+    areas = []
+    mumbai_areas = {"Bandra", "Andheri", "Colaba", "Powai", "Juhu", "Dadar", "Worli", "Kurla", "Thane", "Navi Mumbai", "Central Mumbai"}
+
+    for n in (node_a, node_b):
+        if graph and n in graph:
+            n_data = graph.nodes[n]
+            if n_data.get("canonical_name"):
+                area = extract_area_name(n_data.get("canonical_name"))
+                if area not in ("Central Bengaluru", "Central Mumbai"):
+                    areas.append(area)
+            for neighbor in graph.neighbors(n):
+                neighbor_data = graph.nodes[neighbor]
+                if neighbor_data.get("entity_type") == "LOCATION":
+                    area = extract_area_name(neighbor_data.get("canonical_name", neighbor))
+                    if area not in ("Central Bengaluru", "Central Mumbai"):
+                        areas.append(area)
+
+    city = "Bengaluru"
+    if any(a in mumbai_areas for a in areas):
+        city = "Mumbai"
+    elif any(n in graph and ("mumbai" in str(graph.nodes[n].get("canonical_name", "")).lower() or "mh" in str(graph.nodes[n].get("canonical_name", "")).lower()) for n in (node_a, node_b)):
+        city = "Mumbai"
+
+    primary_area = areas[0] if areas else ("Central Mumbai" if city == "Mumbai" else "Central Bengaluru")
+    return city, primary_area, list(set(areas))
+
+
 @app.get("/health")
 def health():
     """System health & live status endpoint."""
@@ -258,11 +362,14 @@ def health():
         "firs": len(state.firs)
     }
 
+
 @app.get("/graph/data")
 def get_graph_data(
     focus_node: Optional[str] = Query(None, description="Center graph visualization around this node ID"),
     hops: int = Query(1, description="Hop depth for ego-network expansion"),
     include_types: Optional[str] = Query("PERSON,LOCATION,VEHICLE,ORGANIZATION,PHONE_NUMBER,FINANCIAL,CASE", description="Comma-separated entity types"),
+    city: Optional[str] = Query("all", description="Filter graph by City name"),
+    area: Optional[str] = Query("all", description="Filter graph by Area / Sector name"),
     user: dict = Depends(require_permission("graphs.read", resource_type="full_graph"))
 ):
     """Returns live investigation graph payload with node/edge metadata, spatial coordinates, and top AI predictions."""
@@ -270,6 +377,8 @@ def get_graph_data(
         raise HTTPException(status_code=503, detail="Graph pipeline not initialized.")
 
     allowed_types = set(t.strip().upper() for t in include_types.split(","))
+    selected_city = (city or "all").strip().lower()
+    selected_area = (area or "all").strip().lower()
 
     influence_scores = rank_influential_nodes(state.graph, top_n=state.graph.number_of_nodes())
     influence_map = {node: score for node, score in influence_scores}
@@ -291,13 +400,31 @@ def get_graph_data(
             included_nodes.update(next_tier)
             current_tier = next_tier
     else:
-        top_people = [node for node, score in person_influence_scores[:30]]
+        top_people = [node for node, score in person_influence_scores[:35]]
         included_nodes.update(top_people)
         for p in top_people:
             for neighbor in state.graph.neighbors(p):
                 etype = state.graph.nodes[neighbor].get("entity_type", "").upper()
                 if etype in ["LOCATION", "VEHICLE", "ORGANIZATION"]:
                     included_nodes.add(neighbor)
+
+    # Spatial Location Filtering (City / Area)
+    if selected_city != "all" or selected_area != "all":
+        filtered_nodes = set()
+        for node_id in included_nodes:
+            if node_id == focus_node:
+                filtered_nodes.add(node_id)
+                continue
+
+            node_city, node_area, node_locs = get_candidate_location_info(state.graph, node_id, node_id)
+            city_match = (selected_city == "all") or (selected_city in node_city.lower())
+            area_match = (selected_area == "all") or (selected_area in node_area.lower()) or any(selected_area in l.lower() for l in node_locs)
+
+            if city_match and area_match:
+                filtered_nodes.add(node_id)
+
+        if len(filtered_nodes) > 0:
+            included_nodes = filtered_nodes
 
     nodes = []
     valid_node_ids = set()
@@ -385,6 +512,8 @@ def get_graph_data(
         "total_edges": len(edges),
         "ai_predictions": injected_predictions,
         "focus_node": focus_node,
+        "selected_city": city,
+        "selected_area": area,
         "nodes": nodes,
         "edges": edges
     }
@@ -433,6 +562,52 @@ def search_firs(
 
     return results
 
+@app.get("/candidates", response_model=List[LinkCandidate])
+def get_candidates(
+    top_n: int = Query(50, description="Maximum predictions to retrieve"),
+    city: Optional[str] = Query(None, description="Filter candidates by City name"),
+    area: Optional[str] = Query(None, description="Filter candidates by Area name"),
+    sort_by: str = Query("probability", description="Sort by: 'probability', 'area', 'city'"),
+    user: dict = Depends(require_permission("prediction.run"))
+):
+    """Returns top predicted hidden ties enriched with City & Area tags, plus sorting/filtering parameters."""
+    if not state.graph:
+        return []
+
+    candidates = state.cached_top_candidates or rank_candidate_links(state.model, state.scaler, state.graph, top_n=100)
+
+    result = []
+    for a, b, prob in candidates:
+        c_city, c_area, c_locs = get_candidate_location_info(state.graph, a, b)
+
+        # Filter by City
+        if city and city.lower() != "all" and city.lower() not in c_city.lower():
+            continue
+
+        # Filter by Area
+        if area and area.lower() != "all" and area.lower() not in c_area.lower() and not any(area.lower() in l.lower() for l in c_locs):
+            continue
+
+        result.append(LinkCandidate(
+            node_a=a,
+            node_b=b,
+            probability=prob,
+            city=c_city,
+            area=c_area,
+            locations=c_locs
+        ))
+
+    # Apply Sorting
+    if sort_by == "area":
+        result.sort(key=lambda x: (x.area, -x.probability))
+    elif sort_by == "city":
+        result.sort(key=lambda x: (x.city, x.area, -x.probability))
+    else:
+        result.sort(key=lambda x: x.probability, reverse=True)
+
+    return result[:top_n]
+
+
 @app.get("/firs/{fir_id}")
 def get_fir_detail(
     fir_id: str,
@@ -468,6 +643,7 @@ def get_fir_detail(
         "narrative": target_fir.get("narrative"),
         "entities": entities
     }
+
 
 @app.get("/people/{person_id}", response_model=PersonSummary)
 def get_person(person_id: str, user: dict = Depends(require_permission("graphs.read"))):
@@ -519,6 +695,7 @@ def get_person(person_id: str, user: dict = Depends(require_permission("graphs.r
         firs=[PersonFIR(**f) for f in firs_list]
     )
 
+
 @app.get("/resolution/merges")
 def get_resolution_merges(user: dict = Depends(require_permission("graphs.read"))):
     """Global feed of entity resolution merges across the system."""
@@ -547,6 +724,7 @@ def get_resolution_merges(user: dict = Depends(require_permission("graphs.read")
     merges.sort(key=lambda m: m["mention_count"], reverse=True)
     return {"merges": merges}
 
+
 @app.get("/link/{node_a}/{node_b}")
 def get_link_explanation(node_a: str, node_b: str, user: dict = Depends(require_permission("prediction.run"))):
     """Explains relationship probability and evidence between two entities."""
@@ -558,13 +736,6 @@ def get_link_explanation(node_a: str, node_b: str, user: dict = Depends(require_
         "explanation": explain_link(state.graph, node_a, node_b, state.model, state.scaler)
     }
 
-@app.get("/candidates", response_model=List[LinkCandidate])
-def get_candidates(top_n: int = 10, user: dict = Depends(require_permission("prediction.run"))):
-    """Returns top predicted hidden ties ranked by probability."""
-    if not state.graph:
-        return []
-    candidates = state.cached_top_candidates or rank_candidate_links(state.model, state.scaler, state.graph, top_n=max(1, min(top_n, 200)))
-    return [LinkCandidate(node_a=a, node_b=b, probability=prob) for a, b, prob in candidates[:top_n]]
 
 @app.get("/influence", response_model=List[InfluentialNode])
 def get_influence(top_n: int = 10, user: dict = Depends(require_permission("graphs.read"))):
@@ -581,6 +752,7 @@ def get_influence(top_n: int = 10, user: dict = Depends(require_permission("grap
         ) for rank, (node, score) in enumerate(ranked, start=1)
     ]
 
+
 @app.get("/influence/{node}/explain")
 def explain_influence_endpoint(node: str, user: dict = Depends(require_permission("graphs.read"))):
     """Provides Graph-RAG textual evidence for an entity's influence score."""
@@ -588,10 +760,12 @@ def explain_influence_endpoint(node: str, user: dict = Depends(require_permissio
         raise HTTPException(status_code=404, detail="Entity node not found.")
     return {"node": node, "explanation": explain_influence(state.graph, node)}
 
+
 @app.get("/audit-logs")
 def query_audit_logs(user: dict = Depends(require_permission("audit.read"))):
     """Retrieves security audit event log trail."""
     return {"logs": get_audit_logs()}
+
 
 @app.get("/evaluation/summary")
 def evaluation_summary(user: dict = Depends(require_permission("audit.read"))):
@@ -648,6 +822,7 @@ def evaluation_summary(user: dict = Depends(require_permission("audit.read"))):
             "recall": influencer_recall
         }
     }
+
 
 if os.path.exists("../frontend"):
     app.mount("/", StaticFiles(directory="../frontend", html=True), name="frontend")
